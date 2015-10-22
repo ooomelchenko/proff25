@@ -1,8 +1,7 @@
-
 var req;
 
 function start(){
-    console.log('in start')
+    console.log('in start');
     req = new XMLHttpRequest();
     req.onreadystatechange = function () {
         if(req.readyState==4 && req.status==200){
@@ -14,7 +13,7 @@ function start(){
 }
 
 function ajaxF(){
-    console.log('in ajax')
-    req.open("GET", '/ajax?login=' + document.getElementById('w1').value, true);
+    console.log('in ajaxF');
+    req.open("POST", '/ajax1?login=' + document.getElementById('l').value+'&password=' + document.getElementById('p').value, true);//
 req.send();
 }

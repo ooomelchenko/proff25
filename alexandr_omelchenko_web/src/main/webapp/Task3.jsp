@@ -6,7 +6,7 @@
   </script>
 </head>
 <body>
-<p id="mess"> Введите логин и пароль</p>
+<p id="mess"></p>
 <form id="frm" onsubmit = 'check()'>
         <table>
       <tr>
@@ -22,7 +22,12 @@
                 <input type="submit" value="OK">
             </td>
         </tr>
-            </table>>
+            <tr>
+                <td>
+                    <button type="button" onclick="check()">button OK</button>
+                </td>
+            </tr>
+            </table>
     </form>
 </body>
 </html>

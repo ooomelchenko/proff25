@@ -12,13 +12,16 @@
         <td>Login</td>
         <td><input type="text" name="login" id="w1"></td>
       </tr>
-      <tr>
+        <tr>
         <td>Password</td>
         <td><input type="text" name="password" id="w2"></td>
       </tr>
-    </table>
 
-    <h2 onclick="equals()">сравнить</h2>
+<tr>
+    <td>
+    <button type="button" onclick="equals()">сравнить</button>
+</tr>
+    </table>
 <button type="button"
         onclick="document.getElementById('demo').innerHTML = Date()">
   Click me to display Date and Time.</button>

@@ -1,16 +1,19 @@
-
 $(document).ready(function(){
-    $.ajax({
-
-        url:'/ajax',
-        success: function(res){
-        },
-        error: function(p1,p2,p3){
-            alert(p1+p2+p3);
-        },
-
-    });
-
-
-
-});
+        var result;
+        $('#button').bind('click', function(){
+            $.ajax({url:'/ajax2', type: "POST", success:function(res){
+                var clients  = res.split('|');
+                result = $('<ul></ul>');
+               var  re ='<ul>';
+                for(var i = 0; i < clients.length; i++){
+                  //  result.append('<li>' + clients[i]+ '</li>');
+                    re=re+'<li>' + clients[i]+ '</li>';
+                }
+                re=re+'</ul>';
+                $('body').append(re);
+                console.log(re);
+            }
+            })
+        });
+    }
+);

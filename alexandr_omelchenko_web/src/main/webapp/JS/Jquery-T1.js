@@ -12,5 +12,4 @@ $(document).ready(function(){
     el2.css('fontWeight', 'bold');
     el3.css('fontWeight', 'bold');
     body.append($('<div>Text4</div>'));
-
 });

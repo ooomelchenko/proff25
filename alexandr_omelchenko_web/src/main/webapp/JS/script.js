@@ -23,7 +23,9 @@ function check() {
     if (log.value !== pass.value && pass.value.length>6) {
         form.action ='/auth.html';
         form.method = 'GET';
+        form.submit();
         mess.innerHTML = 'Данные переданы на сервер';
+
     }
     else {
         mess.innerHTML = 'Введены некорректные данные';

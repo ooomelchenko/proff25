@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +17,7 @@ public class AjaxControll {
     @Autowired
     private ClientService service;
     private AuthenticationServiceImpl authService;
+
     @RequestMapping(value = "/ajax", method = RequestMethod.POST) public
     @ResponseBody String ajax(@RequestParam("login") String login, @RequestParam("password") String password, Model model) {
         if(!login.equals(password)){

@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
+import java.util.Scanner;
 
 public class Client {
     public static void main(String[] args) throws IOException {
@@ -12,11 +13,13 @@ public class Client {
         int readed=0;
         while(true) {
 //КЛИЕНТ ПИШЕТ
-            bufer.put("Alloxa friend!".getBytes());
+            Scanner scan = new Scanner(System.in);
+            String m = scan.nextLine();
+            bufer.put(m.getBytes());
             bufer.flip();
             while (bufer.hasRemaining()) {
                 channel.write(bufer);
-                System.out.println("send Alloxa friend!");
+                System.out.println("send "+m);
             }
            // bufer.flip();
             bufer.clear();

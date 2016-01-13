@@ -4,6 +4,7 @@ import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.util.Scanner;
 
 public class Server {
     public static void main(String[] args) throws IOException {
@@ -25,11 +26,13 @@ public class Server {
             buffer.flip();
             buffer.clear();
 //СЕРВЕР ПИШЕТ
-            buffer.put("Egggo".getBytes());
+            Scanner scan = new Scanner(System.in);
+            String m = scan.nextLine();
+            buffer.put(m.getBytes());
             buffer.flip();
             while (buffer.hasRemaining()) {
                 clChannel.write(buffer);}
-            System.out.println("send Egggo");
+            System.out.println("send "+m);
             buffer.flip();
             buffer.clear();
         }

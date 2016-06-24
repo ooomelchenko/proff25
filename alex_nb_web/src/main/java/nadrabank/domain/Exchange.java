@@ -1,37 +1,30 @@
 package nadrabank.domain;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
-@Table(name="Company")
-public class Client implements Serializable {
+@Table(name="Exchanges")
+public class Exchange implements Serializable {
     @Id
-    @SequenceGenerator(name = "sequence", sequenceName = "Company_SEQ", initialValue = 1, allocationSize = 1)
+    @SequenceGenerator(name = "sequence", sequenceName = "Exch_SEQ", initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
     @Column(name = "ID")
     private Long id;
     @Column(name = "EDRPO")
     private String inn;
-    @Column(name = "COMPANY_NAME")
+    @Column(name = "Exchange_NAME")
     private String companyName;
     @Column(name = "Address_UR")
     private String address;
     @Column(name = "Post_Address")
     private String postIndex;
-    @Column(name = "Director")
-    private String dirFIO;
+    @Column(name = "Contact_FIO")
+    private String contactFIO;
     @Column(name = "Requizit")
     private String req;
-    @Column(name = "Mail")
+    @Column(name = "EMail")
     private String email;
-
-    @OneToMany (
-         //   @OneToMany (cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH}, // каскадирование
-            fetch = FetchType.EAGER,// подргужать все сразу
-            mappedBy = "client" )  // включить двунаправленность
-    private Set<Lot> lots = new HashSet<>();
 
     //Getters&Setters
     public Long getId() {
@@ -69,11 +62,11 @@ public class Client implements Serializable {
         this.postIndex = postIndex;
     }
 
-    public String getDirFIO() {
-        return dirFIO;
+    public String getContactFIO() {
+        return contactFIO;
     }
-    public void setDirFIO(String dirFIO) {
-        this.dirFIO = dirFIO;
+    public void setContactFIO(String contactFIO) {
+        this.contactFIO = contactFIO;
     }
 
     public String getReq() {
@@ -90,35 +83,30 @@ public class Client implements Serializable {
         this.email = email;
     }
 
-/*    public Set<Lot> getLots() {
-        return lots;
-    }
-    public void setLots(Set<Lot> lots) {
-        this.lots = lots;
-    }*/
-
     //Конструктора
-    public Client() {
+    public Exchange() {
     }
-    public Client(String inn, String companyName, String address, String postIndex, String dirFIO, String req, String email) {
+    public Exchange(String inn, String companyName, String address, String postIndex, String contactFIO, String req, String email) {
         this.inn = inn;
         this.companyName = companyName;
         this.address = address;
         this.postIndex = postIndex;
-        this.dirFIO = dirFIO;
+        this.contactFIO = contactFIO;
         this.req = req;
         this.email = email;
     }
+
     @Override
     public String toString() {
-        return
-                email + '|' +
-                id +'|' +
-                inn + '|' +
-                companyName + '|' +
-                address + '|' +
-                postIndex + '|' +
-                dirFIO + '|' +
-                req;
+        return "Exchange{" +
+                "id=" + id +
+                ", inn='" + inn + '\'' +
+                ", companyName='" + companyName + '\'' +
+                ", address='" + address + '\'' +
+                ", postIndex='" + postIndex + '\'' +
+                ", contactFIO='" + contactFIO + '\'' +
+                ", req='" + req + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

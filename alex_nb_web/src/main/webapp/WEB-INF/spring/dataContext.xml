@@ -14,8 +14,9 @@
     <context:property-placeholder location="classpath:conf.properties"/>
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+    <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
         <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
-        <property name="url" value="jdbc:oracle:thin:@localhost:1521:XE"/>
+        <property name="url" value="${ipDB}"/>
         <property name="username" value="${userDB}"/>
         <property name="password" value="${keyDB}"/>
     </bean>
@@ -31,7 +32,7 @@
             <value>
                 hibernate.dialect=org.hibernate.dialect.Oracle10gDialect
                 hibernate.show_sql=true
-                hibernate.hbm2ddl.auto=Update
+                hibernate.hbm2ddl.auto=update
             </value>
         </property>
     </bean>

@@ -1,7 +1,11 @@
 package nadrabank.dao;
 
+import nadrabank.domain.Bid;
+import nadrabank.domain.Exchange;
 import nadrabank.domain.Lot;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 public interface LotDao {
@@ -11,7 +15,14 @@ public interface LotDao {
     boolean delete(Lot lot);
     List findAll();
 
-    int delCRDTS(Lot lot);
-    Double lotSum(Lot lot);
+    BigDecimal lotSum(Lot lot);
     Long lotCount(Lot lot);
+
+    List getAssetsByLot(Lot lot);
+
+    List<Lot> getLotsByBidDate(Date first, Date last);
+
+    List getLotsByBid(Bid bid);
+
+    List getLotsByExchange(Exchange exchange);
 }

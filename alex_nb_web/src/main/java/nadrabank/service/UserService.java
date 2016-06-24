@@ -4,9 +4,6 @@ import nadrabank.domain.User;
 
 import java.util.List;
 
-/**
- * Created by HP on 10/19/2015.
- */
 public interface UserService {
     User getUser(Long id);
     boolean createUser(User user);

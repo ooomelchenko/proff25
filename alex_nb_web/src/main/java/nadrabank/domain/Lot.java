@@ -1,23 +1,20 @@
 package nadrabank.domain;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
+import java.math.BigDecimal;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
 
 @Entity
-@Table(name="LOTS")
+@Table(name = "LOTS")
 public class Lot implements Serializable {
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:ss", Locale.ENGLISH);
     @Id
     @SequenceGenerator(name = "sequence", sequenceName = "LOT_SEQ", initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
     @Column(name = "ID")
     private Long id;
-    @Column(name = "Region")
-    private String region;
+    @Column(name = "LotNum")
+    private String lotNum;
     @Column(name = "Status")
     private String workStage;
     @Column(name = "Sold")
@@ -26,26 +23,28 @@ public class Lot implements Serializable {
     private String comment;
     @Column(name = "Lot_Created")
     private Date lotDate;
-
-    @OneToMany(fetch = FetchType.LAZY,// подргужать все сразу
-            mappedBy = "lot" )  // включить двунаправленность
-    private Set<Credit> credits = new HashSet<>();
+    @Column(name = "BID_Stage")
+    private String bidStage;
+    @Column(name = "COUNT_OF_PARTICIPANTS")
+    private int countOfParticipants;
+    @Column(name = "Start_PRICE")
+    private BigDecimal startPrice;
+    @Column(name = "FIRST_Start_PRICE")
+    private BigDecimal firstStartPrice;
+    @Column(name = "FACT_PRICE")
+    private BigDecimal factPrice;
+    @Column(name = "CUSTOMER")
+    private String customerName;
+    @Column(name = "RESULT_Status")
+    private String status;
+    @Column(name = "ACT_SIGNED_DATE")
+    private Date actSignedDate;
 
     @ManyToOne
     private User user;//класс
     @ManyToOne
-    private Client client;//класс
+    private Bid bid;//класс
 
-    public boolean addCredit(Credit credit){
-        return credits.add(credit);
-    }
-    public boolean removeCredit(Credit credit){
-        return credits.remove(credit);
-    }
-    public boolean removeCredits(Set<Credit> cred){
-       return credits.removeAll(cred);
-    }
-    //Getters&Setters
     public Long getId() {
         return id;
     }
@@ -53,25 +52,11 @@ public class Lot implements Serializable {
         this.id = id;
     }
 
-    public String getRegion() {
-        return region;
-    }
-    public void setRegion(String region) {
-        this.region = region;
-    }
-
     public String getWorkStage() {
         return workStage;
     }
     public void setWorkStage(String workStage) {
         this.workStage = workStage;
-    }
-
-    public Boolean getIsItSold() {
-        return isItSold;
-    }
-    public void setIsItSold(Boolean isItSold) {
-        this.isItSold = isItSold;
     }
 
     public String getComment() {
@@ -88,13 +73,6 @@ public class Lot implements Serializable {
         this.lotDate = lotDate;
     }
 
-    public Set<Credit> getCredits() {
-        return credits;
-    }
-    public void setCredits(Set<Credit> credits) {
-        this.credits = credits;
-    }
-
     public User getUser() {
         return user;
     }
@@ -102,34 +80,133 @@ public class Lot implements Serializable {
         this.user = user;
     }
 
-    public Client getClient() {
-        return client;
+    public Boolean getItSold() {
+        return isItSold;
     }
-    public void setClient(Client client) {
-        this.client = client;
+    public void setItSold(Boolean itSold) {
+        isItSold = itSold;
+    }
+
+    public BigDecimal getStartPrice() {
+        return startPrice;
+    }
+    public void setStartPrice(BigDecimal startPrice) {
+        this.startPrice = startPrice;
+    }
+
+    public BigDecimal getFactPrice() {
+        return factPrice;
+    }
+    public void setFactPrice(BigDecimal factPrice) {
+        this.factPrice = factPrice;
+    }
+
+    public String getLotNum() {
+        return lotNum;
+    }
+    public void setLotNum(String lotNum) {
+        this.lotNum = lotNum;
+    }
+
+    public Bid getBid() {
+        return bid;
+    }
+    public void setBid(Bid bid) {
+        this.bid = bid;
+    }
+
+    public String getBidStage() {
+        return bidStage;
+    }
+    public void setBidStage(String bidStage) {
+        this.bidStage = bidStage;
+    }
+
+    public int getCountOfParticipants() {
+        return countOfParticipants;
+    }
+    public void setCountOfParticipants(int countOfParticipants) {
+        this.countOfParticipants = countOfParticipants;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public BigDecimal getFirstStartPrice() {
+        return firstStartPrice;
+    }
+    public void setFirstStartPrice(BigDecimal firstStartPrice) {
+        this.firstStartPrice = firstStartPrice;
+    }
+
+    public Date getActSignedDate() {
+        return actSignedDate;
+    }
+    public void setActSignedDate(Date actSignedDate) {
+        this.actSignedDate = actSignedDate;
     }
 
     //Конструктора
     public Lot() {
     }
-    public Lot(String comment, User user, Client client) {
-        this.region = "Головний офіс";
+
+    public Lot(String comment, User user, Date lotDate) {
         this.workStage = "Новий лот";
         this.isItSold = false;
         this.comment = comment;
-        this.lotDate = new Date();
         this.user = user;
-        this.client = client;
+        this.lotDate = lotDate;
+        this.countOfParticipants=0;
+        this.bidStage="Перші торги";
+    }
+
+    public Lot(String lotNum, String workStage, Boolean isItSold, String comment, Date lotDate, String bidStage, int countOfParticipants, BigDecimal startPrice, BigDecimal firstStartPrice, BigDecimal factPrice, String customerName, String status, User user, Bid bid) {
+        this.lotNum = lotNum;
+        this.workStage = workStage;
+        this.isItSold = isItSold;
+        this.comment = comment;
+        this.lotDate = lotDate;
+        this.bidStage = bidStage;
+        this.countOfParticipants = countOfParticipants;
+        this.startPrice = startPrice;
+        this.firstStartPrice = firstStartPrice;
+        this.factPrice = factPrice;
+        this.customerName = customerName;
+        this.status = status;
+        this.user = user;
+        this.bid = bid;
     }
 
     @Override
     public String toString() {
-        return
-                ""+ region +'|'+
-                 client.getCompanyName()+'|'+
-                 workStage + '|' +
-                 user.getLogin() + '|'  +
-                 comment + '|'  +
-                 sdf.format(lotDate);
+        return "Lot{" +
+                "id=" + id +
+                ", lotNum='" + lotNum + '\'' +
+                ", workStage='" + workStage + '\'' +
+                ", isItSold=" + isItSold +
+                ", comment='" + comment + '\'' +
+                ", lotDate=" + lotDate +
+                ", bidStage='" + bidStage + '\'' +
+                ", countOfParticipants=" + countOfParticipants +
+                ", startPrice=" + startPrice +
+                ", firstStartPrice=" + firstStartPrice +
+                ", factPrice=" + factPrice +
+                ", customerName='" + customerName + '\'' +
+                ", status='" + status + '\'' +
+                ", actSignedDate=" + actSignedDate +
+                ", user=" + user +
+                ", bid=" + bid +
+                '}';
     }
 }

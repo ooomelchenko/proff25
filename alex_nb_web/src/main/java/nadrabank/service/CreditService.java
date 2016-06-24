@@ -10,13 +10,17 @@ import java.util.List;
  */
 public interface CreditService {
     Credit getCredit(Long id);
-    boolean createTestCredit();
     boolean createCredit(Credit credit);
     boolean delete(Long id);
-
     boolean delete(Credit credit);
+    boolean updateCredit(Credit credit);
 
-    void updateCredit(Credit credit);
+    List <Credit> getAllCredits();
+
+    List <Credit> getCreditsByPortion(int num);
+
+    Long getTotalCountOfCredits();
+
     List showEquip();
     Credit getByInventar(String invNum);
     List getRegions();
@@ -28,4 +32,6 @@ public interface CreditService {
     List getCreditsResults(String[] types, String[] regs, String[] currs, int dpdmin, int dpdmax, double zbmin, double zbmax);
 
     boolean addCreditsToLot(Lot lot, String[] types, String[] regions, String[] cur, int dpdMin, int dpdMax, double zbMin, double zbMax);
+
+    List getCreditsByClient(String inn, Long id);
 }

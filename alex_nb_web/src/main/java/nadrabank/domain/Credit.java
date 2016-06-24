@@ -1,110 +1,97 @@
 package nadrabank.domain;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Formatter;
 import java.util.Locale;
 
 @Entity
-@Table(name="Credits")
+@Table(name = "Credits")
 public class Credit implements Serializable {
-    private static final SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+    private static final SimpleDateFormat sdfshort = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+
     @Id
-    @SequenceGenerator(name = "sequenc", sequenceName = "Credit_SEQ", initialValue = 1, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenc")
-    @Column(name = "ID_BARS")
+    @SequenceGenerator(name = "sequence", sequenceName = "Credit_SEQ", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
+    @Column(name = "ND_NLS")
     private Long id;
-    @Column(name = "ID_LOANS")
-    private Long lonsID;
-    @Column(name = "PIB")
-    private String fio;
-    @Column(name = "INN")
-    private String inn;
     @Column(name = "REGION")
     private String region;
-    @Column(name = "Fillial")
-    private String fillial;
-    @Column(name = "Val")
-    private String curr;
-    @Column(name = "ZB")
-    private Double totalBorg;
-    @Column(name = "B")
-    private Double borg;
-    @Column(name = "PB")
-    private Double prosrBorg;
-    @Column(name = "T")
-    private Double telo;
-    @Column(name = "PT")
-    private Double prosrTelo;
-    @Column(name = "ZT")
-    private Double totalTelo;
-    @Column(name = "P")
-    private Double proc;
-    @Column(name = "PP")
-    private Double prosrProc;
-    @Column(name = "ZP")
-    private Double totalProc;
-    @Column(name = "Penya")
-    private Double penya;
-    @Column(name = "Comission")
-    private Double comission;
-    @Column(name = "Pvneb")
-    private Double procVnebal;
-    @Column(name = "Marker")
-    private String marker;
-    @Column(name = "Pidrozdil")
-    private String podrazd;
-    @Column(name = "CRDType")
-    private String crdtType;
-    @Column(name = "Specific")
-    private String specific;
-    @Column(name = "Opus_Zastav")
-    private String gageDescr;
-    @Column(name = "Cina_zastavu")
-    private Double gagePrice;
-    @Column(name = "Date_Start")
-    private Date contractStart;
-    @Column(name = "Date_End")
-    private Date contractEnd;
-    @Column(name = "Ndogovor")
+    @Column(name = "MFO")
+    private String mfo;
+    @Column(name = "TYPE_CODE")
+    private String assetTypeCode;
+    @Column(name = "GROUP_CODE")
+    private String assetGroupCode;
+    @Column(name = "TYPE_CLIENT")
+    private String clientType;
+    @Column(name = "PRODUCT")
+    private String product;
+    @Column(name = "ZAST")
+    private String zast;
+    @Column(name = "F_IDCODE")
+    private String inn;
+    @Column(name = "CLIENT_NAME")
+    private String fio;
+    @Column(name = "AGREEMENT_NUMBER")
     private String contractNum;
-    @Column(name = "dpd")
+    @Column(name = "START_DATE")
+    private Date contractStart;
+    @Column(name = "END_DATE")
+    private Date contractEnd;
+    @Column(name = "FX_NUMBER")
+    private String curr;
+    @Column(name = "INTEREST")
+    private Double interestRate;
+    @Column(name = "CONTRACT_SUM_FX")
+    private Double contractSumVal;
+    @Column(name = "CONTRACT_SUM_UAH")
+    private Double contractSumUAH;
+    @Column(name = "ACA_UAH_EVA")
+    private Double zbRateDay;
+    @Column(name = "BODY_UAH")
+    private Double bodyUAH;
+    @Column(name = "PRC_UAH")
+    private Double prcUAH;
+    @Column(name = "COMMIS")
+    private Double comission;
+    @Column(name = "ACA_UAH")
+    private Double zb;
+    @Column(name = "DPD_NEW")
     private int dpd;
-    @Column(name = "period")
-    private String period;
-    @Column (name="dat")
-    private Date dat;
+    @Column(name = "FDAT")
+    private Date lastPayDate;
+    @Column(name = "RV_BEZ_PDV_UAH")
+    private Double ratingPriceNoPDV;
+    @Column(name = "RV_UAH")
+    private Double creditPrice;
+    @Column(name = "KAT")
+    private String nbuRate;
+    @Column(name = "FIN")
+    private String ownerClass;
+    @Column(name = "TIP_ZASTAVI")
+    private String gageType;
+    @Column(name = "VID_ZASTAVI")
+    private String gageVid;
+    @Column(name = "S031")
+    private String gageCode;
+    @Column(name = "RV_DISCOUNT_UAH")
+    private Double discountPrice;
+    @Column(name = "FACT_SALE_PRICE_UAH")
+    private Double factPrice;
+    @Column(name = "IS_IT_SOLD")
+    private Boolean isSold;
 
     @ManyToOne
     private Lot lot;//класс
 
-    //Getters&Setters
     public Long getId() {
         return id;
     }
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getLonsID() {
-        return lonsID;
-    }
-    public void setLonsID(Long lonsID) {
-        this.lonsID = lonsID;
-    }
-
-    public String getFio() {
-        return fio;
-    }
-    public void setFio(String fio) {
-        this.fio = fio;
-    }
-
-    public String getInn() {
-        return inn;
-    }
-    public void setInn(String inn) {
-        this.inn = inn;
     }
 
     public String getRegion() {
@@ -114,144 +101,67 @@ public class Credit implements Serializable {
         this.region = region;
     }
 
-    public String getFillial() {
-        return fillial;
+    public String getMfo() {
+        return mfo;
     }
-    public void setFillial(String fillial) {
-        this.fillial = fillial;
-    }
-
-    public String getCurr() {
-        return curr;
-    }
-    public void setCurr(String curr) {
-        this.curr = curr;
+    public void setMfo(String mfo) {
+        this.mfo = mfo;
     }
 
-    public Double getTotalBorg() {
-        return totalBorg;
+    public String getAssetTypeCode() {
+        return assetTypeCode;
     }
-    public void setTotalBorg(Double totalBorg) {
-        this.totalBorg = totalBorg;
-    }
-
-    public Double getBorg() {
-        return borg;
-    }
-    public void setBorg(Double borg) {
-        this.borg = borg;
+    public void setAssetTypeCode(String assetTypeCode) {
+        this.assetTypeCode = assetTypeCode;
     }
 
-    public Double getProsrBorg() {
-        return prosrBorg;
+    public String getAssetGroupCode() {
+        return assetGroupCode;
     }
-    public void setProsrBorg(Double prosrBorg) {
-        this.prosrBorg = prosrBorg;
-    }
-
-    public Double getTelo() {
-        return telo;
-    }
-    public void setTelo(Double telo) {
-        this.telo = telo;
+    public void setAssetGroupCode(String assetGroupCode) {
+        this.assetGroupCode = assetGroupCode;
     }
 
-    public Double getProsrTelo() {
-        return prosrTelo;
+    public String getClientType() {
+        return clientType;
     }
-    public void setProsrTelo(Double prosrTelo) {
-        this.prosrTelo = prosrTelo;
-    }
-
-    public Double getTotalTelo() {
-        return totalTelo;
-    }
-    public void setTotalTelo(Double totalTelo) {
-        this.totalTelo = totalTelo;
+    public void setClientType(String clientType) {
+        this.clientType = clientType;
     }
 
-    public Double getProc() {
-        return proc;
+    public String getProduct() {
+        return product;
     }
-    public void setProc(Double proc) {
-        this.proc = proc;
-    }
-
-    public Double getProsrProc() {
-        return prosrProc;
-    }
-    public void setProsrProc(Double prosrProc) {
-        this.prosrProc = prosrProc;
+    public void setProduct(String product) {
+        this.product = product;
     }
 
-    public Double getTotalProc() {
-        return totalProc;
+    public String getZast() {
+        return zast;
     }
-    public void setTotalProc(Double totalProc) {
-        this.totalProc = totalProc;
-    }
-
-    public Double getPenya() {
-        return penya;
-    }
-    public void setPenya(Double penya) {
-        this.penya = penya;
+    public void setZast(String zast) {
+        this.zast = zast;
     }
 
-    public Double getComission() {
-        return comission;
+    public String getInn() {
+        return inn;
     }
-    public void setComission(Double comission) {
-        this.comission = comission;
-    }
-
-    public Double getProcVnebal() {
-        return procVnebal;
-    }
-    public void setProcVnebal(Double procVnebal) {
-        this.procVnebal = procVnebal;
+    public void setInn(String inn) {
+        this.inn = inn;
     }
 
-    public String getMarker() {
-        return marker;
+    public String getFio() {
+        return fio;
     }
-    public void setMarker(String marker) {
-        this.marker = marker;
-    }
-
-    public String getPodrazd() {
-        return podrazd;
-    }
-    public void setPodrazd(String podrazd) {
-        this.podrazd = podrazd;
+    public void setFio(String fio) {
+        this.fio = fio;
     }
 
-    public String getCrdtType() {
-        return crdtType;
+    public String getContractNum() {
+        return contractNum;
     }
-    public void setCrdtType(String crdtType) {
-        this.crdtType = crdtType;
-    }
-
-    public String getSpecific() {
-        return specific;
-    }
-    public void setSpecific(String specific) {
-        this.specific = specific;
-    }
-
-    public String getGageDescr() {
-        return gageDescr;
-    }
-    public void setGageDescr(String gageDescr) {
-        this.gageDescr = gageDescr;
-    }
-
-    public Double getGagePrice() {
-        return gagePrice;
-    }
-    public void setGagePrice(Double gagePrice) {
-        this.gagePrice = gagePrice;
+    public void setContractNum(String contractNum) {
+        this.contractNum = contractNum;
     }
 
     public Date getContractStart() {
@@ -268,11 +178,67 @@ public class Credit implements Serializable {
         this.contractEnd = contractEnd;
     }
 
-    public String getContractNum() {
-        return contractNum;
+    public String getCurr() {
+        return curr;
     }
-    public void setContractNum(String contractNum) {
-        this.contractNum = contractNum;
+    public void setCurr(String curr) {
+        this.curr = curr;
+    }
+
+    public Double getInterestRate() {
+        return interestRate;
+    }
+    public void setInterestRate(Double interestRate) {
+        this.interestRate = interestRate;
+    }
+
+    public Double getContractSumVal() {
+        return contractSumVal;
+    }
+    public void setContractSumVal(Double contractSumVal) {
+        this.contractSumVal = contractSumVal;
+    }
+
+    public Double getContractSumUAH() {
+        return contractSumUAH;
+    }
+    public void setContractSumUAH(Double contractSumUAH) {
+        this.contractSumUAH = contractSumUAH;
+    }
+
+    public Double getZbRateDay() {
+        return zbRateDay;
+    }
+    public void setZbRateDay(Double zbRateDay) {
+        this.zbRateDay = zbRateDay;
+    }
+
+    public Double getBodyUAH() {
+        return bodyUAH;
+    }
+    public void setBodyUAH(Double bodyUAH) {
+        this.bodyUAH = bodyUAH;
+    }
+
+    public Double getPrcUAH() {
+        return prcUAH;
+    }
+    public void setPrcUAH(Double prcUAH) {
+        this.prcUAH = prcUAH;
+    }
+
+    public Double getComission() {
+        return comission;
+    }
+    public void setComission(Double comission) {
+        this.comission = comission;
+    }
+
+    public Double getZb() {
+        return zb;
+    }
+    public void setZb(Double zb) {
+        this.zb = zb;
     }
 
     public int getDpd() {
@@ -282,18 +248,74 @@ public class Credit implements Serializable {
         this.dpd = dpd;
     }
 
-    public String getPeriod() {
-        return period;
+    public Date getLastPayDate() {
+        return lastPayDate;
     }
-    public void setPeriod(String period) {
-        this.period = period;
+    public void setLastPayDate(Date lastPayDate) {
+        this.lastPayDate = lastPayDate;
     }
 
-    public Date getDat() {
-        return dat;
+    public Double getCreditPrice() {
+        return creditPrice;
     }
-    public void setDat(Date dat) {
-        this.dat = dat;
+    public void setCreditPrice(Double creditPrice) {
+        this.creditPrice = creditPrice;
+    }
+
+    public String getNbuRate() {
+        return nbuRate;
+    }
+    public void setNbuRate(String nbuRate) {
+        this.nbuRate = nbuRate;
+    }
+
+    public String getOwnerClass() {
+        return ownerClass;
+    }
+    public void setOwnerClass(String ownerClass) {
+        this.ownerClass = ownerClass;
+    }
+
+    public String getGageType() {
+        return gageType;
+    }
+    public void setGageType(String gageType) {
+        this.gageType = gageType;
+    }
+
+    public String getGageVid() {
+        return gageVid;
+    }
+    public void setGageVid(String gageVid) {
+        this.gageVid = gageVid;
+    }
+
+    public String getGageCode() {
+        return gageCode;
+    }
+    public void setGageCode(String gageCode) {
+        this.gageCode = gageCode;
+    }
+
+    public Double getDiscountPrice() {
+        return discountPrice;
+    }
+    public void setDiscountPrice(Double discountPrice) {
+        this.discountPrice = discountPrice;
+    }
+
+    public Double getFactPrice() {
+        return factPrice;
+    }
+    public void setFactPrice(Double factPrice) {
+        this.factPrice = factPrice;
+    }
+
+    public Boolean getIsSold() {
+        return isSold;
+    }
+    public void setIsSold(Boolean isSold) {
+        this.isSold = isSold;
     }
 
     public Lot getLot() {
@@ -303,95 +325,178 @@ public class Credit implements Serializable {
         this.lot = lot;
     }
 
-    //Конструктора
+    public Double getRatingPriceNoPDV() {
+        return ratingPriceNoPDV;
+    }
+    public void setRatingPriceNoPDV(Double ratingPriceNoPDV) {
+        this.ratingPriceNoPDV = ratingPriceNoPDV;
+    }
+
     public Credit() {
     }
-    public Credit(Long lonsID, String fio, String inn, String region, String fillial, String curr, Double totalBorg, Double borg, Double prosrBorg, Double telo, Double prosrTelo, Double totalTelo, Double proc, Double prosrProc, Double totalProc, Double penya, Double comission, Double procVnebal, String marker, String podrazd, String crdtType, String specific, String gageDescr, Double gagePrice, Date contractStart, Date contractEnd, String contractNum, int dpd, String period, Date dat, Lot lot) {
-        this.lonsID = lonsID;
-        this.fio = fio;
-        this.inn = inn;
+
+    public Credit(String region, String mfo, String assetTypeCode, String assetGroupCode, String clientType, String product, String zast, String inn, String fio, String contractNum, Date contractStart, Date contractEnd, String curr, Double interestRate, Double contractSumVal, Double contractSumUAH, Double zbRateDay, Double bodyUAH, Double prcUAH, Double comission, Double zb, int dpd, Date lastPayDate, Double ratingPriceNoPDV, Double creditPrice, String nbuRate, String ownerClass, String gageType, String gageVid, String gageCode, Double discountPrice, Double factPrice, Boolean isSold, Lot lot) {
         this.region = region;
-        this.fillial = fillial;
-        this.curr = curr;
-        this.totalBorg = totalBorg;
-        this.borg = borg;
-        this.prosrBorg = prosrBorg;
-        this.telo = telo;
-        this.prosrTelo = prosrTelo;
-        this.totalTelo = totalTelo;
-        this.proc = proc;
-        this.prosrProc = prosrProc;
-        this.totalProc = totalProc;
-        this.penya = penya;
-        this.comission = comission;
-        this.procVnebal = procVnebal;
-        this.marker = marker;
-        this.podrazd = podrazd;
-        this.crdtType = crdtType;
-        this.specific = specific;
-        this.gageDescr = gageDescr;
-        this.gagePrice = gagePrice;
+        this.mfo = mfo;
+        this.assetTypeCode = assetTypeCode;
+        this.assetGroupCode = assetGroupCode;
+        this.clientType = clientType;
+        this.product = product;
+        this.zast = zast;
+        this.inn = inn;
+        this.fio = fio;
+        this.contractNum = contractNum;
         this.contractStart = contractStart;
         this.contractEnd = contractEnd;
-        this.contractNum = contractNum;
+        this.curr = curr;
+        this.interestRate = interestRate;
+        this.contractSumVal = contractSumVal;
+        this.contractSumUAH = contractSumUAH;
+        this.zbRateDay = zbRateDay;
+        this.bodyUAH = bodyUAH;
+        this.prcUAH = prcUAH;
+        this.comission = comission;
+        this.zb = zb;
         this.dpd = dpd;
-        this.period = period;
-        this.dat = dat;
+        this.lastPayDate = lastPayDate;
+        this.ratingPriceNoPDV = ratingPriceNoPDV;
+        this.creditPrice = creditPrice;
+        this.nbuRate = nbuRate;
+        this.ownerClass = ownerClass;
+        this.gageType = gageType;
+        this.gageVid = gageVid;
+        this.gageCode = gageCode;
+        this.discountPrice = discountPrice;
+        this.factPrice = factPrice;
+        this.isSold = isSold;
         this.lot = lot;
+    }
+
+    public Credit(String region, String mfo, String assetTypeCode, String assetGroupCode, String clientType, String product, String zast, String inn, String fio, String contractNum, Date contractStart, Date contractEnd, String curr, Double interestRate, Double contractSumVal, Double contractSumUAH, Double zbRateDay, Double bodyUAH, Double prcUAH, Double comission, Double zb, int dpd, Date lastPayDate, Double ratingPriceNoPDV, Double creditPrice, String nbuRate, String ownerClass, String gageType, String gageVid, String gageCode, Double discountPrice, Double factPrice, Boolean isSold) {
+        this.region = region;
+        this.mfo = mfo;
+        this.assetTypeCode = assetTypeCode;
+        this.assetGroupCode = assetGroupCode;
+        this.clientType = clientType;
+        this.product = product;
+        this.zast = zast;
+        this.inn = inn;
+        this.fio = fio;
+        this.contractNum = contractNum;
+        this.contractStart = contractStart;
+        this.contractEnd = contractEnd;
+        this.curr = curr;
+        this.interestRate = interestRate;
+        this.contractSumVal = contractSumVal;
+        this.contractSumUAH = contractSumUAH;
+        this.zbRateDay = zbRateDay;
+        this.bodyUAH = bodyUAH;
+        this.prcUAH = prcUAH;
+        this.comission = comission;
+        this.zb = zb;
+        this.dpd = dpd;
+        this.lastPayDate = lastPayDate;
+        this.ratingPriceNoPDV = ratingPriceNoPDV;
+        this.creditPrice = creditPrice;
+        this.nbuRate = nbuRate;
+        this.ownerClass = ownerClass;
+        this.gageType = gageType;
+        this.gageVid = gageVid;
+        this.gageCode = gageCode;
+        this.discountPrice = discountPrice;
+        this.factPrice = factPrice;
+        this.isSold = isSold;
     }
 
     @Override
     public String toString() {
-        return  ""+lot +'|'+
-                id +'|'+
-                lonsID +'|'+
-                fio +'|'+
-                inn +'|'+
-                region +'|'+
-                fillial +'|'+
-                curr +'|'+
-                totalBorg +'|'+
-                borg +'|'+
-                prosrBorg +'|'+
-                telo +'|'+
-                prosrTelo +'|'+
-                totalTelo +'|'+
-                proc +'|'+
-                prosrProc +'|'+
-                totalProc +'|'+
-                penya +'|'+
-                comission +'|'+
-                procVnebal +'|'+
-                marker +'|'+
-                podrazd +'|'+
-                crdtType +'|'+
-                specific +'|'+
-                gageDescr +'|'+
-                gagePrice +'|'+
-                contractStart +'|'+
-                contractEnd +'|'+
-                contractNum +'|'+
-                dpd +'|'+
-                period+'|'+
-                dat;
+        return "Credit{" +
+                "id=" + id +
+                ", region='" + region + '\'' +
+                ", mfo='" + mfo + '\'' +
+                ", assetTypeCode='" + assetTypeCode + '\'' +
+                ", assetGroupCode='" + assetGroupCode + '\'' +
+                ", clientType='" + clientType + '\'' +
+                ", product='" + product + '\'' +
+                ", zast='" + zast + '\'' +
+                ", inn='" + inn + '\'' +
+                ", fio='" + fio + '\'' +
+                ", contractNum='" + contractNum + '\'' +
+                ", contractStart=" + contractStart +
+                ", contractEnd=" + contractEnd +
+                ", curr='" + curr + '\'' +
+                ", interestRate=" + interestRate +
+                ", contractSumVal=" + contractSumVal +
+                ", contractSumUAH=" + contractSumUAH +
+                ", zbRateDay=" + zbRateDay +
+                ", bodyUAH=" + bodyUAH +
+                ", prcUAH=" + prcUAH +
+                ", comission=" + comission +
+                ", zb=" + zb +
+                ", dpd=" + dpd +
+                ", lastPayDate=" + lastPayDate +
+                ", ratingPriceNoPDV=" + ratingPriceNoPDV +
+                ", creditPrice=" + creditPrice +
+                ", nbuRate='" + nbuRate + '\'' +
+                ", ownerClass='" + ownerClass + '\'' +
+                ", gageType='" + gageType + '\'' +
+                ", gageVid='" + gageVid + '\'' +
+                ", gageCode='" + gageCode + '\'' +
+                ", discountPrice=" + discountPrice +
+                ", factPrice=" + factPrice +
+                ", isSold=" + isSold +
+                ", lot=" + lot +
+                '}';
     }
 
     public String toShotString() {
+        String startDate="";
+        String endDate="";
+        if(contractStart!=null){startDate=sdfshort.format(contractStart);}
+        if(contractEnd!=null){endDate=sdfshort.format(contractEnd);}
         return
-                "|"+
-                        lonsID +'|'+
-                        inn + '|' +
-                        contractNum +'|'+
-                        fio + '|' +
+                "|"+inn + '|' +
+                        contractNum + '|' +
+                        fio+ '|' +
                         region + '|' +
-                        crdtType + '|' +
-                        marker +'|'+
+                        assetTypeCode + '|' +
+                        assetGroupCode+ '|' +
+                        clientType+ '|' +
+                        startDate+ '|' +
+                        endDate+ '|' +
                         curr + '|' +
-                        totalBorg +'|'+
-                        dpd +'|'+
-                        sdf.format(contractStart)+'|'+
-                        sdf.format(contractEnd)+'|'+
-                        gageDescr +'|'+
-                        gagePrice ;
+                        product+ '|' +
+                        zb+ '|' +
+                        dpd+ '|' +
+                        creditPrice;
     }
+
+    public String toShotStr() {
+        Formatter f0 = new Formatter();
+        Formatter f1 = new Formatter();
+        Formatter f2 = new Formatter();
+        Formatter f3 = new Formatter();
+        String startDate="";
+        String endDate="";
+        if(contractStart!=null){startDate=sdfshort.format(contractStart);}
+        if(contractEnd!=null){endDate=sdfshort.format(contractEnd);}
+        return
+                "|"+inn + '|' +
+                        contractNum + '|' +
+                        fio+ '|' +
+                        region + '|' +
+                        assetTypeCode + '|' +
+                        assetGroupCode+ '|' +
+                        clientType+ '|' +
+                        startDate+ '|' +
+                        endDate+ '|' +
+                        curr + '|' +
+                        product+ '|' +
+                        f0.format("%,.2f", zb).toString()+ '|' +
+                        dpd+ '|' +
+                        f1.format("%,.2f", creditPrice).toString()+ '|' +
+                        f2.format("%,.2f", discountPrice).toString()+ '|' +
+                        f3.format("%,.2f", factPrice).toString();
+    }
+
 }

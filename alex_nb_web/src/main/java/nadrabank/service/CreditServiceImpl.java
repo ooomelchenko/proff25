@@ -40,11 +40,6 @@ public class CreditServiceImpl implements CreditService {
         return creditDao.findByInventar(invNum);
     }
     @Override
-    public boolean createTestCredit() {
-        creditDao.create(new Credit());
-        return true;
-    }
-    @Override
     public boolean createCredit(Credit credit) {
         creditDao.create(credit);
         return true;
@@ -60,8 +55,23 @@ public class CreditServiceImpl implements CreditService {
         return true;
     }
     @Override
-    public void updateCredit(Credit credit) {
-        creditDao.update(credit);
+    public boolean updateCredit(Credit credit) {
+      return  creditDao.update(credit);
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public List <Credit> getAllCredits(){
+        return creditDao.findAll();
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public List <Credit> getCreditsByPortion(int num){
+        return creditDao.findAll(num);
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public Long getTotalCountOfCredits(){
+       return creditDao.totalCount();
     }
     @Override
     @Transactional(readOnly = true)
@@ -94,5 +104,10 @@ public class CreditServiceImpl implements CreditService {
     @Override
     public boolean addCreditsToLot(Lot lot, String[] types, String[] regions, String[] cur, int dpdMin, int dpdMax, double zbMin, double zbMax){
         return creditDao.addCreditsToLot(lot, types, regions, cur, dpdMin, dpdMax, zbMin, zbMax);
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public List getCreditsByClient(String inn, Long id){
+        return creditDao.getCreditsByClient(inn, id);
     }
 }

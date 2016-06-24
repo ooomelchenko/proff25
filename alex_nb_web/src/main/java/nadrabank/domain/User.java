@@ -1,8 +1,6 @@
 package nadrabank.domain;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name="Users")
@@ -22,11 +20,6 @@ public class User implements Serializable {
     private String password;
     @Column(name = "Rights")
     private String right;
-    @OneToMany (
-            //@OneToMany (cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH}, // каскадирование
-            fetch = FetchType.EAGER,// подргужать все сразу
-            mappedBy = "user" )  // включить двунаправленность
-    private Set<Lot> lots = new HashSet<>();
 
     //Getters&Setters
     public Long getId() {
@@ -70,13 +63,6 @@ public class User implements Serializable {
     public void setRight(String right) {
         this.right = right;
     }
-
-/*    public Set<Lot> getLots() {
-        return lots;
-    }
-    public void setLots(Set<Lot> lots) {
-        this.lots = lots;
-    }*/
 
     //Конструктора
     public User() {

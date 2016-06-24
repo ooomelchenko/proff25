@@ -11,6 +11,11 @@ public interface CreditDao {
     boolean update(Credit credit);
     boolean delete(Credit credit);
     List findAll();
+
+    List findAll(int portionNum);
+
+    Long totalCount();
+
     Credit findByInventar(String invNum);
     List getRegions();
     List getTypes();
@@ -23,4 +28,8 @@ public interface CreditDao {
     List selectCrdSum(String[] types, String[] regions, String[] cur, int dpdMin, int dpdMax, double zbMin, double zbMax);
 
     boolean addCreditsToLot(Lot lot, String[] types, String[] regions, String[] cur, int dpdMin, int dpdMax, double zbMin, double zbMax);
+
+    int delCRDTS(Lot lot);
+
+    List getCreditsByClient(String inn, Long idBars);
 }

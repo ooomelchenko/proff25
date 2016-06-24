@@ -1,13 +1,16 @@
 package nadrabank.dao;
 
-import nadrabank.domain.Credit;
+import nadrabank.domain.Bid;
+import nadrabank.domain.Exchange;
 import nadrabank.domain.Lot;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Repository
 public class LotDaoImpl implements LotDao {
@@ -47,27 +50,44 @@ public class LotDaoImpl implements LotDao {
     }
     @Override
     public List<Lot> findAll() {
-        List list;
-        list =factory.getCurrentSession().createQuery("From nadrabank.domain.Lot l ORDER BY l.lotDate DESC ").list();
-        return list;
+        return factory.getCurrentSession().createQuery("From nadrabank.domain.Lot").list();
     }
     @Override
-    public int delCRDTS(Lot lot) {
-        Query query =factory.getCurrentSession().createQuery("UPDATE nadrabank.domain.Credit crdt SET crdt.lot=null WHERE crdt.lot=:lot ");
-        query.setParameter("lot", lot);
-        int deletedRows = query.executeUpdate();
-        return deletedRows;
-    }
-    @Override
-    public Double lotSum(Lot lot){
-        Query queryS = factory.getCurrentSession().createQuery("SELECT sum(cr.totalBorg) FROM nadrabank.domain.Credit cr WHERE cr.lot=:lot");
+    public BigDecimal lotSum(Lot lot){
+        Query queryS = factory.getCurrentSession().createQuery("SELECT sum(asset.rv) FROM nadrabank.domain.Asset asset WHERE asset.lot=:lot");
         queryS.setParameter("lot", lot);
-        return (Double)queryS.list().get(0);
+        return (BigDecimal)queryS.list().get(0);
     }
     @Override
     public Long lotCount(Lot lot){
-        Query query = factory.getCurrentSession().createQuery("SELECT count(cr.totalBorg) FROM nadrabank.domain.Credit cr WHERE cr.lot=:lot");
+        Query query = factory.getCurrentSession().createQuery("SELECT count(asset.rv) FROM nadrabank.domain.Asset asset WHERE asset.lot=:lot");
         query.setParameter("lot", lot);
         return (Long) query.list().get(0);
+    }
+    @Override
+    public List getAssetsByLot(Lot lot) {
+        Query query = factory.getCurrentSession().createQuery("FROM nadrabank.domain.Asset asset Where asset.lot=:lot ORDER BY asset.rv DESC ");
+        query.setParameter("lot", lot);
+        return query.list();
+    }
+
+    @Override
+    public List<Lot> getLotsByBidDate(Date first, Date last){
+        Query query = factory.getCurrentSession().createQuery("FROM nadrabank.domain.Lot lot WHERE lot.bid.bidDate>=:date1 AND lot.bid.bidDate<=:date2");
+        query.setParameter("date1", first);
+        query.setParameter("date2", last);
+        return query.list();
+    }
+    @Override
+    public List getLotsByBid(Bid bid) {
+        Query query = factory.getCurrentSession().createQuery("FROM nadrabank.domain.Lot lot Where lot.bid=:bid");//ORDER BY lot.bid.bidDate DESC
+        query.setParameter("bid", bid);
+        return query.list();
+    }
+    @Override
+    public List getLotsByExchange(Exchange exchange) {
+        Query query = factory.getCurrentSession().createQuery("FROM nadrabank.domain.Lot lot Where lot.bid.exchange=:exchange");
+        query.setParameter("exchange", exchange);
+        return query.list();
     }
 }

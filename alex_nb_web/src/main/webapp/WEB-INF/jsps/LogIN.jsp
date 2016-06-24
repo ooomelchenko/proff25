@@ -11,7 +11,7 @@
                     document.getElementById('loginMessage').innerHTML = 'Логін або пароль введені невірно';
                 }
                 else {
-                    window.location = '/';
+                    window.location = 'index';
                 }
             }
         };
@@ -23,9 +23,14 @@
             authRequest.send();
         }
     </script>
+    <style>
+        body{
+            background: url(images/emblema.jpg) no-repeat fixed top right;
+        }
+    </style>
 </head>
 
-<body id="bd">
+<body id="bd" >
 
 <div id="wrapper" class="login-form">
     <div class="header">
@@ -37,7 +42,7 @@
         <tr>
             <td>Логін</td>
             <td>
-                <input id="login" type="text" class="username" placeholder="Логін" value="mer"/>
+                <input id="login" type="text" class="login" placeholder="Логін" value="alexandr"/>
             </td>
         </tr>
         <tr>
@@ -48,7 +53,7 @@
         </tr>
     </table>
     <input type="button" class="button" id="authbut" onclick="auth()" value="УВІЙТИ"
-           style="font:inherit;color: darkblue; width: 200px; height: 30px ">
+           style="font:inherit;color: darkblue; width: 200px; height: 30px">
 </div>
 
 </body>

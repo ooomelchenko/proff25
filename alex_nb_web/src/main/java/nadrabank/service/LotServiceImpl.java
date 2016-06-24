@@ -1,12 +1,18 @@
 package nadrabank.service;
 
+import nadrabank.dao.AssetDao;
 import nadrabank.dao.LotDao;
 import nadrabank.dao.LotDaoImpl;
+import nadrabank.dao.PayDao;
+import nadrabank.domain.Bid;
+import nadrabank.domain.Exchange;
 import nadrabank.domain.Lot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Service //(name ="LotServiceImpl")
@@ -14,6 +20,10 @@ import java.util.List;
 public class LotServiceImpl implements LotService {
     @Autowired
     private LotDao lotDao;
+    @Autowired
+    private AssetDao asstDao;
+    @Autowired
+    private PayDao payDao;
 
     public LotServiceImpl() {
     }
@@ -49,8 +59,8 @@ public class LotServiceImpl implements LotService {
         return true;
     }
     @Override
-    public void updateLot(Lot lot) {
-        lotDao.update(lot);
+    public boolean updateLot(Lot lot) {
+       return lotDao.update(lot);
     }
     @Override
     @Transactional(readOnly = true)
@@ -59,7 +69,7 @@ public class LotServiceImpl implements LotService {
     }
     @Override
     @Transactional(readOnly = true)
-    public Double lotSum(Lot lot){
+    public BigDecimal lotSum(Lot lot){
         return lotDao.lotSum(lot);
     }
     @Override
@@ -70,15 +80,51 @@ public class LotServiceImpl implements LotService {
 
     @Override
     public boolean delLot(Lot lot) {
-        int cr=lotDao.delCRDTS(lot);
+        int cr=asstDao.delAssetsFromLot(lot);
         boolean lt=lotDao.delete(lot);
         return lt;
     }
     @Override
     public boolean delLot(Long lotId) {
         Lot lot = getLot(lotId);
-        int cr=lotDao.delCRDTS(lot);
+        int cr=asstDao.delAssetsFromLot(lot);
         boolean lt=lotDao.delete(lot);
         return lt;
     }
+    @Override
+    @Transactional(readOnly = true)
+    public List getAssetsByLot(Lot lot){
+        return lotDao.getAssetsByLot(lot);
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public List getAssetsByLot(Long lotId){
+        return lotDao.getAssetsByLot(lotDao.read(lotId));
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public List getLotsByBidDate(Date first, Date last){
+        return lotDao.getLotsByBidDate(first, last);
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public BigDecimal paymentsSumByLot(Lot lot){
+        return payDao.sumByLot(lot);
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public List paymentsByLot(Lot lot){
+        return payDao.getPaymentsByLot(lot);
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public List getLotsByBid(Bid bid){
+        return lotDao.getLotsByBid(bid);
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public List getLotsByExchange(Exchange exchange){
+        return lotDao.getLotsByExchange(exchange);
+    }
+
 }

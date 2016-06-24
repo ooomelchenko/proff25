@@ -90,15 +90,15 @@ $(document).ready(function () {
                     zbmax: $('#zbmax').val()
                 },
                 success: function (res) {
-                    if (res.length == 0) {
-                        var inf = $('<p>Кредитів із заданими параметрами не знайдено</p>');
+                    if (res.length == 1) {
+                        var inf = $('<p style="color: darkred">Кредитів із заданими параметрами не знайдено</p>');
                         $('#crdList').append(inf);
                     }
                     else {
                         var tab = $('<table id="tbl" border="light" class="table" style="background-color: lightcyan">Вибірка кредитів</table>');
 
                         for (var i = 0; i < res.length; i++) {
-                            var tr = $('<tr></tr>');
+                            var tr = $('<tr align="center"></tr>');
                             var stroka = res[i].split('|');
                             for (var j = 0; j < stroka.length; j++) {
                                 if (i == 0) {
@@ -119,8 +119,8 @@ $(document).ready(function () {
                 url: 'createLot',
                 type: "GET",
                 data: {
-                    companyId: $('#compId').val(),
                     comment: $('#commId').val(),
+                    exchange: $('#exId').val(),
                     curs: getCheckedCurr(),
                     types: getCheckedTypes(),
                     regions: getCheckedRu(),

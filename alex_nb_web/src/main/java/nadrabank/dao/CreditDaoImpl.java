@@ -3,10 +3,10 @@ package nadrabank.dao;
 import nadrabank.domain.Credit;
 import nadrabank.domain.Lot;
 import org.hibernate.Query;
-import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.List;
@@ -54,6 +54,19 @@ public class CreditDaoImpl implements CreditDao {
         return list;
     }
     @Override
+    public List findAll(int portionNum) {
+        Query query = factory.getCurrentSession().createQuery("from nadrabank.domain.Credit");
+        query.setFirstResult(portionNum*5000);
+        query.setMaxResults(5000);
+        List<Credit>list;
+        list =(List<Credit>)query.list();
+        return list;
+    }
+    @Override
+    public Long totalCount() {
+        return (Long)factory.getCurrentSession().createQuery("SELECT count(cr.id) from nadrabank.domain.Credit cr").list().get(0);
+    }
+    @Override
     public Credit findByInventar(String invNum){
         return (Credit)factory.getCurrentSession().createQuery("from nadrabank.domain.Credit").list().get(0);
     }
@@ -63,7 +76,7 @@ public class CreditDaoImpl implements CreditDao {
     }
     @Override
     public List getTypes() {
-        return factory.getCurrentSession().createQuery("SELECT cr.crdtType  FROM nadrabank.domain.Credit cr GROUP BY cr.crdtType ORDER BY cr.crdtType").list();
+        return factory.getCurrentSession().createQuery("SELECT cr.clientType  FROM nadrabank.domain.Credit cr GROUP BY cr.clientType ORDER BY cr.clientType").list();
     }
     @Override
     public List getCur() {
@@ -71,17 +84,17 @@ public class CreditDaoImpl implements CreditDao {
     }
     @Override
     public String makeQueryText(String[] types, String[] regions, String[] cur){
-        String queryText="WHERE cr.dpd>=:dpdmin AND cr.dpd<=:dpdmax AND cr.totalBorg>=:zbmin AND cr.totalBorg<=:zbmax AND cr.lot is null ";
+        String queryText="WHERE cr.dpd>=:dpdmin AND cr.dpd<=:dpdmax AND cr.creditPrice>=:zbmin AND cr.creditPrice<=:zbmax AND cr.lot is null ";
         if(types.length!=1 || !types[0].equals("")){
             for (int j= 0; j < types.length; j++) {
                 if (types.length==1)
-                    queryText = queryText+" AND cr.crdtType='" + types[j] + "'";
+                    queryText = queryText+" AND cr.clientType='" + types[j] + "'";
                 else if (j==0&&!types[j].equals(""))
-                    queryText = queryText + " AND (cr.crdtType='" + types[j] + "'";
+                    queryText = queryText + " AND (cr.clientType='" + types[j] + "'";
                 else if(j==types.length-1)
-                    queryText = queryText+" OR cr.crdtType='" + types[j]+"')";
+                    queryText = queryText+" OR cr.clientType='" + types[j]+"')";
                 else
-                    queryText = queryText + " OR cr.crdtType='" + types[j] + "'";
+                    queryText = queryText + " OR cr.clientType='" + types[j] + "'";
             }
         }
         if(regions.length!=1 || !regions[0].equals("")){
@@ -119,15 +132,14 @@ public class CreditDaoImpl implements CreditDao {
         query.setParameter("dpdmax", dpdMax);
         query.setParameter("zbmin", zbMin);
         query.setParameter("zbmax", zbMax);
-   /*     query.setFirstResult(0);
-        query.setMaxResults(100);*/
+
         return query.list();
     }
     @Override
     public List selectCrdSum(String[] types, String[] regions, String[] cur, int dpdMin, int dpdMax, double zbMin, double zbMax) {
         String part2 = makeQueryText(types,regions, cur);
-        String queryText1="SELECT sum(cr.totalBorg) as zb FROM Credit cr "+part2;
-        String queryText2="SELECT count(cr.totalBorg) as kol FROM Credit cr "+part2;
+        String queryText1="SELECT sum(cr.creditPrice) as zb FROM Credit cr "+part2;
+        String queryText2="SELECT count(cr.creditPrice) as kol FROM Credit cr "+part2;
         Query query1 =factory.getCurrentSession().createQuery(queryText1);
         query1.setParameter("dpdmin", dpdMin);
         query1.setParameter("dpdmax", dpdMax);
@@ -163,5 +175,31 @@ public class CreditDaoImpl implements CreditDao {
         query.setParameter("lott", lot);
         int rows =query.executeUpdate();
         return true;
+    }
+    @Override
+    public int delCRDTS(Lot lot) {
+        Query query =factory.getCurrentSession().createQuery("UPDATE nadrabank.domain.Credit crdt SET crdt.lot=null WHERE crdt.lot=:lot ");
+        query.setParameter("lot", lot);
+        return query.executeUpdate();
+    }
+    @Override
+    public List getCreditsByClient(String inn, Long idBars){
+        if (!inn.equals("")&&idBars!=null){
+        Query query = factory.getCurrentSession().createQuery("FROM nadrabank.domain.Credit crdt WHERE crdt.lot is null and crdt.inn=:inn and crdt.id=:idBars");
+            query.setParameter("inn", inn);
+            query.setParameter("idBars", idBars);
+            return query.list();
+        }
+        else if(!inn.equals("")&&idBars==null){
+            Query query = factory.getCurrentSession().createQuery("FROM nadrabank.domain.Credit crdt WHERE crdt.lot is null and crdt.inn=:inn");
+            query.setParameter("inn", inn);
+            return query.list();
+        }
+        else if (inn.equals("")&&idBars!=null){
+            Query query = factory.getCurrentSession().createQuery("FROM nadrabank.domain.Credit crdt WHERE crdt.lot is null and crdt.id=:idBars");
+            query.setParameter("idBars", idBars);
+            return query.list();
+        }
+       else return null;
     }
 }

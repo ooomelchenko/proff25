@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Formatter;
 import java.util.List;
 
@@ -30,6 +31,39 @@ public class CreditDaoImpl implements CreditDao {
     }
 
     @Override
+    public String getFilterText(int isSold, int isInLot, int clientType, int isNbu, int isFondDec){
+        String queryText="Where cr.id is not null ";
+
+        if(isSold!=10){
+            queryText+="and cr.isSold= "+isSold+" ";
+        }
+        if(isInLot==0){
+            queryText+="and cr.lot is null ";
+        }
+        else if(isInLot==1){
+            queryText+="and cr.lot is not null ";
+        }
+        if(clientType==0){
+            queryText+="and cr.clientType = 'Фіз.особа' ";
+        }
+        else if(clientType==1){
+            queryText+="and cr.clientType = 'Юр.особа' ";
+        }
+        else if(clientType==2){
+            queryText+="and cr.clientType = 'Списані' ";
+        }
+        if(isNbu!=10){
+            queryText+="and cr.nbuPladge= "+isNbu+" ";
+        }
+        if(isFondDec==0){
+            queryText+="and cr.fondDecisionDate is null ";
+        }
+        else if(isFondDec==1){
+            queryText+="and cr.fondDecisionDate is not null ";
+        }
+        return queryText;
+    }
+    @Override
     public Long create(Credit credit) {
         return (Long)factory.getCurrentSession().save(credit);
     }
@@ -50,17 +84,37 @@ public class CreditDaoImpl implements CreditDao {
     @Override
     public List findAll() {
         List<Credit>list;
-        list =factory.getCurrentSession().createQuery("from nadrabank.domain.Credit").list();
+        list =factory.getCurrentSession().createQuery("from nadrabank.domain.Credit cr ORDER BY cr.zb DESC, cr.lot ASC ").list();
         return list;
     }
     @Override
     public List findAll(int portionNum) {
-        Query query = factory.getCurrentSession().createQuery("from nadrabank.domain.Credit");
+        Query query = factory.getCurrentSession().createQuery("from nadrabank.domain.Credit cr ORDER BY cr.lot ASC, cr.zb DESC ");
         query.setFirstResult(portionNum*5000);
         query.setMaxResults(5000);
         List<Credit>list;
         list =(List<Credit>)query.list();
         return list;
+    }
+    @Override
+    public List findAll(int portionNum, int isSold, int isInLot, int clientType, int isNbu, int isFondDec) {
+        String fitersText = getFilterText(isSold, isInLot, clientType, isNbu, isFondDec);
+
+        Query query = factory.getCurrentSession().createQuery("from nadrabank.domain.Credit cr "+fitersText+" ORDER BY cr.lot ASC, cr.zb DESC ");
+
+        query.setFirstResult(portionNum*5000);
+        query.setMaxResults(5000);
+        List<Credit>list;
+        list =(List<Credit>)query.list();
+        return list;
+    }
+    @Override
+    public Long countOfFilteredCredits(int isSold, int isInLot, int clientType, int isNbu, int isFondDec) {
+        String fitersText = getFilterText(isSold, isInLot, clientType, isNbu, isFondDec);
+
+        Query query = factory.getCurrentSession().createQuery("SELECT count(cr.id) from nadrabank.domain.Credit cr "+fitersText+" ORDER BY cr.lot ASC, cr.zb DESC ");
+
+        return (Long) query.list().get(0);
     }
     @Override
     public Long totalCount() {
@@ -127,7 +181,7 @@ public class CreditDaoImpl implements CreditDao {
     public List selectCredits(String[] types, String[] regions, String[] cur, int dpdMin, int dpdMax, double zbMin, double zbMax) {
         String queryText = makeQueryText(types, regions, cur);
 
-        Query query =factory.getCurrentSession().createQuery("FROM Credit cr "+queryText);
+        Query query =factory.getCurrentSession().createQuery("FROM nadrabank.domain.Credit cr "+queryText);
         query.setParameter("dpdmin", dpdMin);
         query.setParameter("dpdmax", dpdMax);
         query.setParameter("zbmin", zbMin);
@@ -201,5 +255,18 @@ public class CreditDaoImpl implements CreditDao {
             return query.list();
         }
        else return null;
+    }
+    @Override
+    public List getCreditsByLot(Long lotId){
+        Query query = factory.getCurrentSession().createQuery("FROM nadrabank.domain.Credit crdt WHERE crdt.lot=:lotId");
+        query.setParameter("lotId", lotId);
+        return query.list();
+    }
+    @Override
+    public List getCredits_SuccessBids(Date startBids, Date endBids) {
+        Query query = factory.getCurrentSession().createQuery("SELECT credit FROM nadrabank.domain.Credit credit, nadrabank.domain.Lot l WHERE credit.lot=l.id and l.status!='Торги не відбулись' and l.bid.bidDate>=:startBid AND l.bid.bidDate<=:endBid");
+        query.setParameter("startBid", startBids);
+        query.setParameter("endBid", endBids);
+        return query.list();
     }
 }

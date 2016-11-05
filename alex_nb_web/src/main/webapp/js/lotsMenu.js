@@ -14,12 +14,6 @@ function lotsCalculations(){
             }
         })
     });
-    trL.mouseover( function(){
-        $(this).css({'background-color': "white"})
-    });
-    trL.mouseout( function(){
-        $(this).css({'background-color': "lightcyan"})
-    });
 
     $('.lotId').each(function(){
         var lotStr = $(this).parent();

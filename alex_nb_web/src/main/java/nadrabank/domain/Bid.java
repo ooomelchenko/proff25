@@ -6,7 +6,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "BIDS")
-public class Bid implements Serializable {
+public class Bid implements Serializable, Comparable<Bid> {
    // private static final SimpleDateFormat sdfshort = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
     @Id
     @SequenceGenerator(name = "sequence", sequenceName = "BIDS_SEQ", initialValue = 1, allocationSize = 1)
@@ -75,7 +75,6 @@ public class Bid implements Serializable {
         this.registrEndDate = registrEndDate;
     }
 
-
     public Exchange getExchange() {
         return exchange;
     }
@@ -93,7 +92,6 @@ public class Bid implements Serializable {
         this.registrEndDate = registrEndDate;
         this.exchange = exchange;
     }
-
     public Bid(Date bidDate, Exchange exchange, String newspaper, Date news1Date, Date news2Date, Date registrEndDate) {
         this.bidDate = bidDate;
         this.newspaper = newspaper;
@@ -101,6 +99,11 @@ public class Bid implements Serializable {
         this.news2Date = news2Date;
         this.registrEndDate = registrEndDate;
         this.exchange = exchange;
+    }
+
+    @Override
+    public int compareTo(Bid bid) {
+        return bidDate.compareTo(bid.getBidDate());
     }
 
     @Override

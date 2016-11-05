@@ -12,10 +12,20 @@ import java.util.List;
 public interface LotService {
     Lot getLot(Long id);
     Long createLot(Lot lot);
+
+    Long createLot(String userName, Lot lot);
+
     boolean delete(Long id);
     boolean delete(Lot lot);
     boolean updateLot(Lot lot);
+
+    boolean updateLot(String userName, Lot lot);
+
     List getLots();
+
+    @Transactional(readOnly = true)
+    List getLotsId();
+
     BigDecimal lotSum(Lot lot);
     Long lotCount(Lot lot);
 
@@ -24,6 +34,15 @@ public interface LotService {
     boolean delLot(Long lotId);
 
     List getAssetsByLot(Lot lot);
+
+    @Transactional(readOnly = true)
+    List getTMCAssetsByLot(Lot lot);
+
+    @Transactional(readOnly = true)
+    List getNotTMCAssetsByLot(Lot lot);
+
+    @Transactional(readOnly = true)
+    List getCRDTSByLot(Lot lot);
 
     List getAssetsByLot(Long lotId);
 
@@ -41,4 +60,7 @@ public interface LotService {
 
     @Transactional(readOnly = true)
     List getLotsByExchange(Exchange exchange);
+
+    @Transactional(readOnly = true)
+    List getBidsIdByLot(Long lotId);
 }

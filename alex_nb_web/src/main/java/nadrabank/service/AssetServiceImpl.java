@@ -2,16 +2,22 @@ package nadrabank.service;
 
 import nadrabank.dao.AssetDao;
 import nadrabank.dao.AssetDaoImpl;
+import nadrabank.dao.AssetHistoryDao;
 import nadrabank.domain.Asset;
+import nadrabank.domain.AssetHistory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Service //(name ="assetServiceImpl")
 @Transactional
 public class AssetServiceImpl implements AssetService {
+    @Autowired
+    private AssetHistoryDao assetHistoryDao;
     @Autowired
     private AssetDao assetDao;
 
@@ -39,6 +45,21 @@ public class AssetServiceImpl implements AssetService {
         return true;
     }
     @Override
+    public boolean createAsset(String userName, Asset asset) {
+        assetHistoryDao.create(new AssetHistory(userName, asset));
+        assetDao.create(asset);
+        return true;
+    }
+    @Override
+    public boolean updateAsset(Asset asset) {
+        return  assetDao.update(asset);
+    }
+    @Override
+    public boolean updateAsset(String userName, Asset asset) {
+        assetHistoryDao.create(new AssetHistory(userName, asset));
+        return  assetDao.update(asset);
+    }
+    @Override
     public boolean delete(Long id) {
         assetDao.delete(assetDao.read(id));
         return true;
@@ -47,10 +68,6 @@ public class AssetServiceImpl implements AssetService {
     public boolean delete(Asset asset) {
         assetDao.delete(asset);
         return true;
-    }
-    @Override
-    public boolean updateAsset(Asset asset) {
-      return  assetDao.update(asset);
     }
     @Override
     @Transactional(readOnly = true)
@@ -72,6 +89,12 @@ public class AssetServiceImpl implements AssetService {
     @Transactional(readOnly = true)
     public List getAll() {
         return assetDao.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List findAllSuccessBids(Date startBidDate, Date endBidDate) {
+        return assetDao.findAllSuccessBids(startBidDate, endBidDate);
     }
 
     @Override
@@ -102,4 +125,9 @@ public class AssetServiceImpl implements AssetService {
         return assetDao.getExchanges();
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List getDecisionNumbers(){
+        return assetDao.getDecisionNumbers();
+    }
 }

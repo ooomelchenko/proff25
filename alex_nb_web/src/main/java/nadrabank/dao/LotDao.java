@@ -15,10 +15,18 @@ public interface LotDao {
     boolean delete(Lot lot);
     List findAll();
 
+    List<Long> findAllId();
+
     BigDecimal lotSum(Lot lot);
     Long lotCount(Lot lot);
 
     List getAssetsByLot(Lot lot);
+
+    List getTMCAssetsByLot(Lot lot);
+
+    List getNotTMCAssetsByLot(Lot lot);
+
+    List getCRDTSByLot(Lot lot);
 
     List<Lot> getLotsByBidDate(Date first, Date last);
 

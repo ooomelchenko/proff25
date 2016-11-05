@@ -33,18 +33,16 @@
                 Назва біржі
             </th>
             <th>Оціночна вартість, грн.</th>
-            <th>Статус торгів</th>
-            <th>№ Лоту</th>
-            <th>Початкова ціна лоту, грн.</th>
-            <th>Кількість зареєстрованих учасиків</th>
-            <th>Ціна реалізації, грн.</th>
+            <th>Торги</th>
             <th>Статус аукціону</th>
-            <th>Покупець</th>
+            <th>№ Лоту в публікації</th>
+            <th>Початкова ціна лоту, грн.</th>
+            <th>Ціна реалізації, грн.</th>
             <th>Статус оплати</th>
-            <th>Сума часткової сплати</th>
-            <th>Залишок оплати, грн.</th>
+            <th>Сума сплати</th>
             <th>Стадія роботи</th>
-            <th>Співробітник</th>
+            <th>Покупець</th>
+            <th>Акт підписано</th>
             <th>Коментар</th>
         </tr>
         <%for(Lot lot: lotList){Bid bid = lot.getBid();%>
@@ -54,18 +52,18 @@
             <td align="center" class="company"><%if(bid!=null&&bid.getExchange()!=null)out.print(bid.getExchange().getCompanyName());%></td>
             <td align="center" class="sumOfCrd"></td>
             <td align="center" class="bidStage"><%out.print(lot.getBidStage());%></td>
-            <td align="center" class="lotNum"><%=lot.getLotNum()%></td>
-            <td align="center" class="startPrice"><%=new Formatter().format("%,.0f", lot.getStartPrice()).toString()%></td>
-            <td align="center" ><%out.print(lot.getCountOfParticipants());%></td>
-            <td align="center" class="factPrice"><%=lot.getFactPrice()%></td>
-            <td align="center" class="bidStatus"><%out.print(lot.getStatus());%></td>
-            <td align="center" class="customer"><%out.print(lot.getCustomerName());%></td>
+            <td align="center" class="bidStatus"><%if(lot.getStatus()!=null)out.print(lot.getStatus());%></td>
+            <td align="center" class="lotNum"><%if(lot.getLotNum()!=null)out.print(lot.getLotNum());%></td>
+            <td align="center" class="startPrice"><%if(lot.getStartPrice()!=null)out.print(lot.getStartPrice());%></td>
+            <td align="center" class="factPrice"><%if(lot.getFactPrice()!=null)out.print(lot.getFactPrice());%></td>
             <td align="center" class="payStatus"></td>
             <td align="center" class="paymentsSum"></td>
-            <td align="center" class="residualToPay"></td>
+            <%--<td align="center" class="residualToPay"></td>--%>
             <td align="center" class="workstage"><%=lot.getWorkStage()%></td>
-            <td align="center" class="user"><%=lot.getUser().getLogin()%></td>
-            <td align="center" class="comment"><%=lot.getComment()%></td>
+            <td align="center" class="customer"><%if(lot.getCustomerName()!=null)out.print(lot.getCustomerName());%></td>
+            <td align="center" class="aktDate"><%if(lot.getActSignedDate()!=null)out.print(sdf.format(lot.getActSignedDate()));%></td>
+            <%--<td align="center" class="user"><%=lot.getUser().getLogin()%></td>--%>
+            <td align="center" class="comment"><%if(lot.getComment()!=null)out.print(lot.getComment());%></td>
         </tr>
         <%}%>
     </table>

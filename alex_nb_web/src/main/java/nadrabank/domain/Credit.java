@@ -2,21 +2,23 @@ package nadrabank.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Formatter;
 import java.util.Locale;
 
 @Entity
 @Table(name = "Credits")
 public class Credit implements Serializable {
-    private static final SimpleDateFormat sdfshort = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+    static final SimpleDateFormat sdfshort = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
     @Id
     @SequenceGenerator(name = "sequence", sequenceName = "Credit_SEQ", initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
     @Column(name = "ND_NLS")
     private Long id;
+    @Column(name = "KEY_N")
+    private Long n;
     @Column(name = "REGION")
     private String region;
     @Column(name = "MFO")
@@ -44,29 +46,29 @@ public class Credit implements Serializable {
     @Column(name = "FX_NUMBER")
     private String curr;
     @Column(name = "INTEREST")
-    private Double interestRate;
+    private BigDecimal interestRate;
     @Column(name = "CONTRACT_SUM_FX")
-    private Double contractSumVal;
+    private BigDecimal contractSumVal;
     @Column(name = "CONTRACT_SUM_UAH")
-    private Double contractSumUAH;
+    private BigDecimal contractSumUAH;
     @Column(name = "ACA_UAH_EVA")
-    private Double zbRateDay;
+    private BigDecimal zbRateDay;
     @Column(name = "BODY_UAH")
-    private Double bodyUAH;
+    private BigDecimal bodyUAH;
     @Column(name = "PRC_UAH")
-    private Double prcUAH;
+    private BigDecimal prcUAH;
     @Column(name = "COMMIS")
-    private Double comission;
+    private BigDecimal comission;
     @Column(name = "ACA_UAH")
-    private Double zb;
+    private BigDecimal zb;
     @Column(name = "DPD_NEW")
     private int dpd;
     @Column(name = "FDAT")
     private Date lastPayDate;
     @Column(name = "RV_BEZ_PDV_UAH")
-    private Double ratingPriceNoPDV;
+    private BigDecimal ratingPriceNoPDV;
     @Column(name = "RV_UAH")
-    private Double creditPrice;
+    private BigDecimal rv;
     @Column(name = "KAT")
     private String nbuRate;
     @Column(name = "FIN")
@@ -78,14 +80,41 @@ public class Credit implements Serializable {
     @Column(name = "S031")
     private String gageCode;
     @Column(name = "RV_DISCOUNT_UAH")
-    private Double discountPrice;
+    private BigDecimal discountPrice;
     @Column(name = "FACT_SALE_PRICE_UAH")
-    private Double factPrice;
+    private BigDecimal factPrice;
+    @Column(name = "ZASTAVA_NBU")
+    private Boolean nbuPladge;
     @Column(name = "IS_IT_SOLD")
     private Boolean isSold;
+    @Column(name = "FOND_DEC_DATE")
+    private Date fondDecisionDate;
+    @Column(name = "FOND_DECISION")
+    private String fondDecision;
+    @Column(name = "FOND_DECISION_NUM")
+    private String decisionNumber;
+    @Column(name = "ACCEPTED_PRICE")
+    private BigDecimal acceptPrice;
+    @Column(name = "PAYMENTS_BID")
+    private BigDecimal paysBid;
+    @Column(name = "PAYMENTS_CUSTOMER")
+    private BigDecimal paysCustomer;
+    @Column(name = "LAST_BID_PAY_DATE")
+    private Date bidPayDate;
+    @Column(name = "LAST_CUSTOMER_PAY_DATE")
+    private Date customerPayDate;
+    @Column(name = "PLAN_SALE_DATE")
+    private Date planSaleDate;
 
-    @ManyToOne
-    private Lot lot;//класс
+    @Column(name = "LOT_ID")
+    private Long lot;
+
+    public Long getN() {
+        return n;
+    }
+    public void setN(Long n) {
+        this.n = n;
+    }
 
     public Long getId() {
         return id;
@@ -185,59 +214,59 @@ public class Credit implements Serializable {
         this.curr = curr;
     }
 
-    public Double getInterestRate() {
+    public BigDecimal getInterestRate() {
         return interestRate;
     }
-    public void setInterestRate(Double interestRate) {
+    public void setInterestRate(BigDecimal interestRate) {
         this.interestRate = interestRate;
     }
 
-    public Double getContractSumVal() {
+    public BigDecimal getContractSumVal() {
         return contractSumVal;
     }
-    public void setContractSumVal(Double contractSumVal) {
+    public void setContractSumVal(BigDecimal contractSumVal) {
         this.contractSumVal = contractSumVal;
     }
 
-    public Double getContractSumUAH() {
+    public BigDecimal getContractSumUAH() {
         return contractSumUAH;
     }
-    public void setContractSumUAH(Double contractSumUAH) {
+    public void setContractSumUAH(BigDecimal contractSumUAH) {
         this.contractSumUAH = contractSumUAH;
     }
 
-    public Double getZbRateDay() {
+    public BigDecimal getZbRateDay() {
         return zbRateDay;
     }
-    public void setZbRateDay(Double zbRateDay) {
+    public void setZbRateDay(BigDecimal zbRateDay) {
         this.zbRateDay = zbRateDay;
     }
 
-    public Double getBodyUAH() {
+    public BigDecimal getBodyUAH() {
         return bodyUAH;
     }
-    public void setBodyUAH(Double bodyUAH) {
+    public void setBodyUAH(BigDecimal bodyUAH) {
         this.bodyUAH = bodyUAH;
     }
 
-    public Double getPrcUAH() {
+    public BigDecimal getPrcUAH() {
         return prcUAH;
     }
-    public void setPrcUAH(Double prcUAH) {
+    public void setPrcUAH(BigDecimal prcUAH) {
         this.prcUAH = prcUAH;
     }
 
-    public Double getComission() {
+    public BigDecimal getComission() {
         return comission;
     }
-    public void setComission(Double comission) {
+    public void setComission(BigDecimal comission) {
         this.comission = comission;
     }
 
-    public Double getZb() {
+    public BigDecimal getZb() {
         return zb;
     }
-    public void setZb(Double zb) {
+    public void setZb(BigDecimal zb) {
         this.zb = zb;
     }
 
@@ -255,11 +284,18 @@ public class Credit implements Serializable {
         this.lastPayDate = lastPayDate;
     }
 
-    public Double getCreditPrice() {
-        return creditPrice;
+    public BigDecimal getRatingPriceNoPDV() {
+        return ratingPriceNoPDV;
     }
-    public void setCreditPrice(Double creditPrice) {
-        this.creditPrice = creditPrice;
+    public void setRatingPriceNoPDV(BigDecimal ratingPriceNoPDV) {
+        this.ratingPriceNoPDV = ratingPriceNoPDV;
+    }
+
+    public BigDecimal getCreditPrice() {
+        return rv;
+    }
+    public void setCreditPrice(BigDecimal rv) {
+        this.rv = rv;
     }
 
     public String getNbuRate() {
@@ -297,121 +333,119 @@ public class Credit implements Serializable {
         this.gageCode = gageCode;
     }
 
-    public Double getDiscountPrice() {
+    public BigDecimal getDiscountPrice() {
         return discountPrice;
     }
-    public void setDiscountPrice(Double discountPrice) {
+    public void setDiscountPrice(BigDecimal discountPrice) {
         this.discountPrice = discountPrice;
     }
 
-    public Double getFactPrice() {
+    public BigDecimal getFactPrice() {
         return factPrice;
     }
-    public void setFactPrice(Double factPrice) {
+    public void setFactPrice(BigDecimal factPrice) {
         this.factPrice = factPrice;
     }
 
-    public Boolean getIsSold() {
-        return isSold;
+    public Boolean getNbuPladge() {
+        return nbuPladge;
     }
-    public void setIsSold(Boolean isSold) {
-        this.isSold = isSold;
+    public void setNbuPladge(Boolean nbuPladge) {
+        this.nbuPladge = nbuPladge;
     }
 
-    public Lot getLot() {
+    public Boolean getSold() {
+        return isSold;
+    }
+    public void setSold(Boolean sold) {
+        isSold = sold;
+    }
+
+    public Long getLot() {
         return lot;
     }
-    public void setLot(Lot lot) {
+    public void setLot(Long lot) {
         this.lot = lot;
     }
 
-    public Double getRatingPriceNoPDV() {
-        return ratingPriceNoPDV;
+    public BigDecimal getRv() {
+        return rv;
     }
-    public void setRatingPriceNoPDV(Double ratingPriceNoPDV) {
-        this.ratingPriceNoPDV = ratingPriceNoPDV;
+    public void setRv(BigDecimal rv) {
+        this.rv = rv;
+    }
+
+    public Date getFondDecisionDate() {
+        return fondDecisionDate;
+    }
+    public void setFondDecisionDate(Date fondDecisionDate) {
+        this.fondDecisionDate = fondDecisionDate;
+    }
+
+    public String getFondDecision() {
+        return fondDecision;
+    }
+    public void setFondDecision(String fondDecision) {
+        this.fondDecision = fondDecision;
+    }
+
+    public String getDecisionNumber() {
+        return decisionNumber;
+    }
+    public void setDecisionNumber(String decisionNumber) {
+        this.decisionNumber = decisionNumber;
+    }
+
+    public BigDecimal getAcceptPrice() {
+        return acceptPrice;
+    }
+    public void setAcceptPrice(BigDecimal acceptPrice) {
+        this.acceptPrice = acceptPrice;
+    }
+
+    public BigDecimal getPaysBid() {
+        return paysBid;
+    }
+    public void setPaysBid(BigDecimal paysBid) {
+        this.paysBid = paysBid;
+    }
+
+    public BigDecimal getPaysCustomer() {
+        return paysCustomer;
+    }
+    public void setPaysCustomer(BigDecimal paysCustomer) {
+        this.paysCustomer = paysCustomer;
+    }
+
+    public Date getBidPayDate() {
+        return bidPayDate;
+    }
+    public void setBidPayDate(Date bidPayDate) {
+        this.bidPayDate = bidPayDate;
+    }
+
+    public Date getCustomerPayDate() {
+        return customerPayDate;
+    }
+    public void setCustomerPayDate(Date customerPayDate) {
+        this.customerPayDate = customerPayDate;
+    }
+
+    public Date getPlanSaleDate() {
+        return planSaleDate;
+    }
+    public void setPlanSaleDate(Date planSaleDate) {
+        this.planSaleDate = planSaleDate;
     }
 
     public Credit() {
     }
 
-    public Credit(String region, String mfo, String assetTypeCode, String assetGroupCode, String clientType, String product, String zast, String inn, String fio, String contractNum, Date contractStart, Date contractEnd, String curr, Double interestRate, Double contractSumVal, Double contractSumUAH, Double zbRateDay, Double bodyUAH, Double prcUAH, Double comission, Double zb, int dpd, Date lastPayDate, Double ratingPriceNoPDV, Double creditPrice, String nbuRate, String ownerClass, String gageType, String gageVid, String gageCode, Double discountPrice, Double factPrice, Boolean isSold, Lot lot) {
-        this.region = region;
-        this.mfo = mfo;
-        this.assetTypeCode = assetTypeCode;
-        this.assetGroupCode = assetGroupCode;
-        this.clientType = clientType;
-        this.product = product;
-        this.zast = zast;
-        this.inn = inn;
-        this.fio = fio;
-        this.contractNum = contractNum;
-        this.contractStart = contractStart;
-        this.contractEnd = contractEnd;
-        this.curr = curr;
-        this.interestRate = interestRate;
-        this.contractSumVal = contractSumVal;
-        this.contractSumUAH = contractSumUAH;
-        this.zbRateDay = zbRateDay;
-        this.bodyUAH = bodyUAH;
-        this.prcUAH = prcUAH;
-        this.comission = comission;
-        this.zb = zb;
-        this.dpd = dpd;
-        this.lastPayDate = lastPayDate;
-        this.ratingPriceNoPDV = ratingPriceNoPDV;
-        this.creditPrice = creditPrice;
-        this.nbuRate = nbuRate;
-        this.ownerClass = ownerClass;
-        this.gageType = gageType;
-        this.gageVid = gageVid;
-        this.gageCode = gageCode;
-        this.discountPrice = discountPrice;
-        this.factPrice = factPrice;
-        this.isSold = isSold;
-        this.lot = lot;
-    }
-
-    public Credit(String region, String mfo, String assetTypeCode, String assetGroupCode, String clientType, String product, String zast, String inn, String fio, String contractNum, Date contractStart, Date contractEnd, String curr, Double interestRate, Double contractSumVal, Double contractSumUAH, Double zbRateDay, Double bodyUAH, Double prcUAH, Double comission, Double zb, int dpd, Date lastPayDate, Double ratingPriceNoPDV, Double creditPrice, String nbuRate, String ownerClass, String gageType, String gageVid, String gageCode, Double discountPrice, Double factPrice, Boolean isSold) {
-        this.region = region;
-        this.mfo = mfo;
-        this.assetTypeCode = assetTypeCode;
-        this.assetGroupCode = assetGroupCode;
-        this.clientType = clientType;
-        this.product = product;
-        this.zast = zast;
-        this.inn = inn;
-        this.fio = fio;
-        this.contractNum = contractNum;
-        this.contractStart = contractStart;
-        this.contractEnd = contractEnd;
-        this.curr = curr;
-        this.interestRate = interestRate;
-        this.contractSumVal = contractSumVal;
-        this.contractSumUAH = contractSumUAH;
-        this.zbRateDay = zbRateDay;
-        this.bodyUAH = bodyUAH;
-        this.prcUAH = prcUAH;
-        this.comission = comission;
-        this.zb = zb;
-        this.dpd = dpd;
-        this.lastPayDate = lastPayDate;
-        this.ratingPriceNoPDV = ratingPriceNoPDV;
-        this.creditPrice = creditPrice;
-        this.nbuRate = nbuRate;
-        this.ownerClass = ownerClass;
-        this.gageType = gageType;
-        this.gageVid = gageVid;
-        this.gageCode = gageCode;
-        this.discountPrice = discountPrice;
-        this.factPrice = factPrice;
-        this.isSold = isSold;
-    }
-
     @Override
     public String toString() {
         return "Credit{" +
-                "id=" + id +
+                "n=" + n +
+                ", id=" + id +
                 ", region='" + region + '\'' +
                 ", mfo='" + mfo + '\'' +
                 ", assetTypeCode='" + assetTypeCode + '\'' +
@@ -436,7 +470,7 @@ public class Credit implements Serializable {
                 ", dpd=" + dpd +
                 ", lastPayDate=" + lastPayDate +
                 ", ratingPriceNoPDV=" + ratingPriceNoPDV +
-                ", creditPrice=" + creditPrice +
+                ", rv=" + rv +
                 ", nbuRate='" + nbuRate + '\'' +
                 ", ownerClass='" + ownerClass + '\'' +
                 ", gageType='" + gageType + '\'' +
@@ -444,7 +478,16 @@ public class Credit implements Serializable {
                 ", gageCode='" + gageCode + '\'' +
                 ", discountPrice=" + discountPrice +
                 ", factPrice=" + factPrice +
+                ", nbuPladge=" + nbuPladge +
                 ", isSold=" + isSold +
+                ", fondDecisionDate=" + fondDecisionDate +
+                ", fondDecision='" + fondDecision + '\'' +
+                ", decisionNumber='" + decisionNumber + '\'' +
+                ", acceptPrice=" + acceptPrice +
+                ", paysBid=" + paysBid +
+                ", paysCustomer=" + paysCustomer +
+                ", bidPayDate=" + bidPayDate +
+                ", customerPayDate=" + customerPayDate +
                 ", lot=" + lot +
                 '}';
     }
@@ -468,35 +511,7 @@ public class Credit implements Serializable {
                         product+ '|' +
                         zb+ '|' +
                         dpd+ '|' +
-                        creditPrice;
-    }
-
-    public String toShotStr() {
-        Formatter f0 = new Formatter();
-        Formatter f1 = new Formatter();
-        Formatter f2 = new Formatter();
-        Formatter f3 = new Formatter();
-        String startDate="";
-        String endDate="";
-        if(contractStart!=null){startDate=sdfshort.format(contractStart);}
-        if(contractEnd!=null){endDate=sdfshort.format(contractEnd);}
-        return
-                "|"+inn + '|' +
-                        contractNum + '|' +
-                        fio+ '|' +
-                        region + '|' +
-                        assetTypeCode + '|' +
-                        assetGroupCode+ '|' +
-                        clientType+ '|' +
-                        startDate+ '|' +
-                        endDate+ '|' +
-                        curr + '|' +
-                        product+ '|' +
-                        f0.format("%,.2f", zb).toString()+ '|' +
-                        dpd+ '|' +
-                        f1.format("%,.2f", creditPrice).toString()+ '|' +
-                        f2.format("%,.2f", discountPrice).toString()+ '|' +
-                        f3.format("%,.2f", factPrice).toString();
+                        rv;
     }
 
 }

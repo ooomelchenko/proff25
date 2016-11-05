@@ -5,12 +5,36 @@
     <script src="js/jquery-1.11.1.js"></script>
     <script>
         $(document).ready(function () {
-            $('#crdButt').click(function(){
+            $('#assButt').click(function(){
                 window.open("assets")
+            });
+            $('#crdButt').click(function(){
+                window.open("credits")
             });
         })
     </script>
     <%-- <link href="css/nbStyle1.css" rel="stylesheet" type="text/css"> --%>
+    <style type="text/css">
+        button:hover{
+            cursor: pointer;
+        }
+        #reportsButton{
+            background-color: darkgreen;
+            color: white;
+            border-radius: 100%;
+            width: 80px ;
+            height: 60px;
+            font-size: 25px
+        }
+        #reportsButton:hover{
+            background-color: lightgreen;
+            color: black;
+            width: 100px ;
+            height: 75px;
+            font-weight: bold;
+            font-size: 30px
+        }
+    </style>
 </head>
 
 <body id="bd" style="background-color: mintcream">
@@ -22,13 +46,14 @@
     <button style="width: 150px ; height: 50px; font-size: 30px" id="lotBut" onclick="location.href = 'lotMenu'">Лоти</button>
     <button style="width: 150px ; height: 50px; font-size: 30px" id="exBut" onclick="location.href = 'exMenu'">Біржі</button>
     <button style="width: 150px ; height: 50px; font-size: 30px" id="bidBut" onclick="location.href = 'bidMenu'">Аукціони</button>
-    <button style="width: 150px ; height: 50px; font-size: 30px" id="crdButt" >Об'єкти</button>
+    <button style="width: 150px ; height: 50px; font-size: 30px" id="assButt" >Об'єкти</button>
+    <button style="width: 150px ; height: 50px; font-size: 30px" id="crdButt" >Кредити</button>
 </div>
 
 <div align="center">
     <br>
     <br>
-    <button style="background-color: deepskyblue; color: yellow; width: 200px ; height: 35px; font-size: 25px" id="bidButt" onclick="location.href = ''">Звіти</button>
+    <button id="reportsButton" onclick="location.href = 'reports'" title="Перейти до завантаження звітів щодо проведених аукціонів">Звіти</button>
 </div>
 
 </body>

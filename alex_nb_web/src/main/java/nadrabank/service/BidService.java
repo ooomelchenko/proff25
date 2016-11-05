@@ -15,6 +15,9 @@ public interface BidService {
     boolean updateBid(Bid bid);
     List getAllBids();
 
+    @Transactional(readOnly = true)
+    List getAssetsByBid(Bid bid);
+
     Long countOfLots(Bid bid);
 
     List lotsByBid(Bid bid);

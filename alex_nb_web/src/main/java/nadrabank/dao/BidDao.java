@@ -1,5 +1,6 @@
 package nadrabank.dao;
 
+import nadrabank.domain.Asset;
 import nadrabank.domain.Bid;
 import nadrabank.domain.Exchange;
 import nadrabank.domain.Lot;
@@ -16,6 +17,8 @@ public interface BidDao {
     Long countOfLots(Bid bid);
 
     List<Lot> lotsByBid(Bid bid);
+
+    List<Asset> assetsByBid(Bid bid);
 
     List<Exchange> getBidsByExchange(Exchange exchange);
 }

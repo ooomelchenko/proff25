@@ -11,9 +11,6 @@ import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 
-/**
- * Created by HP on 26.05.2015.
- */
 public class JavsFx extends Application {
     @Override
     public void start(Stage stage) throws Exception {

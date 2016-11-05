@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -53,5 +55,25 @@ public class PayServiceImpl implements PayService {
     public List getAllPays() {
         return payDao.findAll();
     }
+    @Transactional(readOnly = true)
+    @Override
+    public Date getLastDateByBid(Long lotId){
+        return payDao.getLastDateByBid(lotId);
+    }
+    @Transactional(readOnly = true)
+    @Override
+    public Date getLastDateByCustomer(Long lotId){
+        return payDao.getLastDateByCustomer(lotId);
+    }
 
+    @Transactional(readOnly = true)
+    @Override
+    public BigDecimal sumByLotFromBid(Long lotId){
+        return payDao.sumByLotFromBid(lotId);
+    }
+    @Transactional(readOnly = true)
+    @Override
+    public BigDecimal sumByLotFromCustomer(Long lotId){
+        return payDao.sumByLotFromCustomer(lotId);
+    }
 }

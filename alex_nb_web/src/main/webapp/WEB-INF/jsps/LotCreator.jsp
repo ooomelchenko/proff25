@@ -7,11 +7,9 @@
     <script src="js/jquery-1.11.1.js"></script>
     <script>
         $(document).ready(function () {
-
             var ftab = $('#findTab');
             var ltab = $('#lotTab');
-            var price = $('#priceId');
-            var count = $('#kolId');
+
             calculate();
 
             $('#findCrdt').on('click', function () {
@@ -21,18 +19,18 @@
                 $.ajax({
                     url: "objectsByInNum",
                     method: "POST",
-                    data: {inn: $('#inn').val()},
-                    success(crdt){
-                        for (var i = 0; i < crdt.length; i++) {
-                            var approveNBU = crdt[i].approveNBU ? "Так" : "Ні";
+                    data: {inn: $('#in').val()},
+                    success(asset){
+                        for (var i = 0; i < asset.length; i++) {
+                            var approveNBU = asset[i].approveNBU ? "Так" : "Ні";
                             var tr = $('<tr class="ftr" align="center">' +
-                                    '<td class="idLot">' + crdt[i].id + '</td>' +
-                                    '<td>' + crdt[i].inn + '</td>' +
-                                    '<td>' + crdt[i].asset_name + '</td>' +
-                                    '<td>' + crdt[i].asset_descr + '</td>' +
-                                    '<td>' + crdt[i].region + '</td>' +
-                                    '<td>' + crdt[i].zb + '</td>' +
-                                    '<td>' + crdt[i].rv + '</td>' +
+                                    '<td class="idAsset">' + asset[i].id + '</td>' +
+                                    '<td>' + asset[i].inn + '</td>' +
+                                    '<td>' + asset[i].asset_name + '</td>' +
+                                    '<td>' + asset[i].asset_descr + '</td>' +
+                                    '<td>' + asset[i].region + '</td>' +
+                                    '<td>' + asset[i].zb + '</td>' +
+                                    '<td>' + asset[i].rv + '</td>' +
                                     '<td>' + approveNBU + '</td>' +
                                     '</tr>');
                             var addButton = $('<button id="addButton">Додати в лот</button>');
@@ -55,7 +53,7 @@
                             tr.append(addButton);
 
                             var idF = tr.children().first().text();
-                            var lids = ltab.find('.idLot');
+                            var lids = ltab.find('.idAsset');
                             for (var j = 0; j < lids.length; j++) {
                                 if (lids[j].innerHTML == idF) {
                                     addButton.remove();
@@ -71,7 +69,7 @@
                 ltab.show();
             });
             function calculate() {
-                var tdId = ltab.find('.idLot');
+                var tdId = ltab.find('.idAsset');
 
                 var idl = "";
                 for (var i = 0; i < tdId.length; i++) {
@@ -90,7 +88,7 @@
             }
 
             $('#createLot').on('click', function createLot() {
-                var tdId = ltab.find('.idLot');
+                var tdId = ltab.find('.idAsset');
                 var idl = "";
                 for (var i = 0; i < tdId.length; i++) {
                     idl = idl + ',' + tdId[i].innerHTML;
@@ -100,12 +98,14 @@
                     method: "POST",
                     data: {
                         idMass: idl,
-                        comment: $('#commId').val(),
+                        comment: $('#commId').val()
                     },
                     success(ok){
                         if (ok == '1') {
                             alert("Лот створено!");
-                            window.close();
+                           // window.close();
+                            //window.open("lotRedactor");
+                            location.href="lotRedactor";
                         }
                         else
                             alert("Лот не створено!");
@@ -127,7 +127,7 @@
                     <tr>
                         <td colspan="2">Інвентарний номер</td>
                         <td colspan="3">
-                            <input input id="inn" type="text" style="background-color: lightgreen; width: 100%">
+                            <input input id="in" type="text" style="background-color: lightgreen; width: 100%">
                         </td>
                     </tr>
                     <tr>
@@ -180,7 +180,7 @@
     </table>
 </div>
 
-<div id="crdtList" class="view" style="width: 100%">
+<div id="assetList" class="view" style="width: 100%">
     <table id="findTab" class="table" border="2" hidden="hidden" bgcolor="#ffffe0">
         <tr align="center" bgcolor="#ffefd5">
             <th>ID</th>
@@ -193,8 +193,8 @@
             <th>В заставі НБУ</th>
         </tr>
     </table>
-    <table id="lotTab" class="table" border="3" hidden="hidden" bgcolor="lightcyan">
-        <tr align="center" bgcolor="#00ffff">
+    <table id="lotTab" class="table" border="3" hidden="hidden">
+        <tr align="center" bgcolor="#90ee90">
             <th>ID</th>
             <th>Інвентарний №</th>
             <th>Назва активу</th>
@@ -206,10 +206,11 @@
         </tr>
         <% List<Asset> assetList = (List<Asset>) request.getAttribute("assetList"); %>
         <% for(Asset asset: assetList){
-        if(asset.getLot()==null && !asset.getFondDecision().equals("Відправлено до ФГВФО") && !asset.getFondDecision().equals("") ){
+        if(asset.getLot()==null && !asset.getFondDecision().equals("Відправлено до ФГВФО") && !asset.getFondDecision().equals("") )
+        {
         %>
         <tr align="center">
-            <td class="idLot"><%=asset.getId()%></td>
+            <td class="idAsset"><%=asset.getId()%></td>
             <td><%=asset.getInn()%></td>
             <td><%=asset.getAsset_name()%></td>
             <td><%=asset.getAsset_descr()%></td>

@@ -4,6 +4,7 @@ import nadrabank.domain.Asset;
 import nadrabank.domain.Lot;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 public interface AssetDao {
@@ -15,6 +16,9 @@ public interface AssetDao {
     int delAssetsFromLot(Lot lot);
 
     List findAll();
+
+    List findAllSuccessBids(Date startBids, Date endBids);
+
     List findAll(int portionNum);
 
     Long totalCount();
@@ -30,4 +34,6 @@ public interface AssetDao {
     List getAllBidDates();
 
     List getExchanges();
+
+    List getDecisionNumbers();
 }

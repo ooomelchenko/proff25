@@ -18,7 +18,7 @@ public class Exchange implements Serializable {
     @Column(name = "Address_UR")
     private String address;
     @Column(name = "Post_Address")
-    private String postIndex;
+    private String postAddress;
     @Column(name = "Contact_FIO")
     private String contactFIO;
     @Column(name = "Requizit")
@@ -55,11 +55,11 @@ public class Exchange implements Serializable {
         this.address = address;
     }
 
-    public String getPostIndex() {
-        return postIndex;
+    public String getPostAddress() {
+        return postAddress;
     }
-    public void setPostIndex(String postIndex) {
-        this.postIndex = postIndex;
+    public void setPostAddress(String postAddress) {
+        this.postAddress = postAddress;
     }
 
     public String getContactFIO() {
@@ -86,11 +86,11 @@ public class Exchange implements Serializable {
     //Конструктора
     public Exchange() {
     }
-    public Exchange(String inn, String companyName, String address, String postIndex, String contactFIO, String req, String email) {
+    public Exchange(String inn, String companyName, String address, String postAddress, String contactFIO, String req, String email) {
         this.inn = inn;
         this.companyName = companyName;
         this.address = address;
-        this.postIndex = postIndex;
+        this.postAddress = postAddress;
         this.contactFIO = contactFIO;
         this.req = req;
         this.email = email;
@@ -103,7 +103,7 @@ public class Exchange implements Serializable {
                 ", inn='" + inn + '\'' +
                 ", companyName='" + companyName + '\'' +
                 ", address='" + address + '\'' +
-                ", postIndex='" + postIndex + '\'' +
+                ", postIndex='" + postAddress + '\'' +
                 ", contactFIO='" + contactFIO + '\'' +
                 ", req='" + req + '\'' +
                 ", email='" + email + '\'' +

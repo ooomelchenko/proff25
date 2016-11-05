@@ -4,9 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by HP on 01.06.2015.
- */
 public class TestSingleton {
     Singleton module1;
     @Before

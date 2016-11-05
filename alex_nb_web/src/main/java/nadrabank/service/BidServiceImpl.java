@@ -2,6 +2,7 @@ package nadrabank.service;
 
 import nadrabank.dao.BidDao;
 import nadrabank.dao.LotDao;
+import nadrabank.domain.Asset;
 import nadrabank.domain.Bid;
 import nadrabank.domain.Exchange;
 import nadrabank.domain.Lot;
@@ -63,6 +64,11 @@ public class BidServiceImpl implements BidService {
     @Override
     public List lotsByBid(Bid bid){
         return bidDao.lotsByBid(bid);
+    }
+    @Transactional(readOnly = true)
+    @Override
+    public List<Asset> getAssetsByBid(Bid bid){
+        return bidDao.assetsByBid(bid);
     }
     @Transactional(readOnly = true)
     @Override

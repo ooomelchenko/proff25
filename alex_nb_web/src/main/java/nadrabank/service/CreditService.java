@@ -2,7 +2,9 @@ package nadrabank.service;
 
 import nadrabank.domain.Credit;
 import nadrabank.domain.Lot;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,6 +21,12 @@ public interface CreditService {
 
     List <Credit> getCreditsByPortion(int num);
 
+    @Transactional(readOnly = true)
+    List <Credit> getCreditsByPortion(int num, int isSold, int isInLot, int clientType, int isNbu, int isFondDec);
+
+    @Transactional(readOnly = true)
+    Long countOfFilteredCredits(int isSold, int isInLot, int clientType, int isNbu, int isFondDec);
+
     Long getTotalCountOfCredits();
 
     List showEquip();
@@ -34,4 +42,12 @@ public interface CreditService {
     boolean addCreditsToLot(Lot lot, String[] types, String[] regions, String[] cur, int dpdMin, int dpdMax, double zbMin, double zbMax);
 
     List getCreditsByClient(String inn, Long id);
+
+    boolean updateCredit(String userLogin, Credit crdt);
+
+    @Transactional(readOnly = true)
+    List getCrditsByLotId(Long lotId);
+
+    @Transactional(readOnly = true)
+    List getCredits_SuccessBids(Date startBids, Date endBids);
 }

@@ -1,5 +1,6 @@
 package nadrabank.dao;
 
+import nadrabank.domain.Asset;
 import nadrabank.domain.Bid;
 import nadrabank.domain.Exchange;
 import nadrabank.domain.Lot;
@@ -61,6 +62,12 @@ public class BidDaoImpl implements BidDao {
     @Override
     public List<Lot> lotsByBid (Bid bid) {
         Query query = factory.getCurrentSession().createQuery("FROM nadrabank.domain.Lot l WHERE l.bid=:b");
+        query.setParameter("b", bid);
+        return query.list();
+    }
+    @Override
+    public List<Asset> assetsByBid (Bid bid) {
+        Query query = factory.getCurrentSession().createQuery("FROM nadrabank.domain.Asset ass WHERE ass.lot.bid=:b");
         query.setParameter("b", bid);
         return query.list();
     }

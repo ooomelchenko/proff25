@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -48,7 +49,7 @@ public class AssetDaoImpl implements AssetDao {
     }
     @Override
     public int delAssetsFromLot(Lot lot) {
-        Query query =factory.getCurrentSession().createQuery("UPDATE nadrabank.domain.Asset asset SET asset.lot=null, asset.bidPrice=null, asset.factPrice=null WHERE asset.lot=:lot ");
+        Query query =factory.getCurrentSession().createQuery("UPDATE nadrabank.domain.Asset asset SET asset.lot=null, asset.factPrice=null WHERE asset.lot=:lot ");
         query.setParameter("lot", lot);
         return query.executeUpdate();
     }
@@ -57,6 +58,13 @@ public class AssetDaoImpl implements AssetDao {
         List<Asset>list;
         list = factory.getCurrentSession().createQuery("SELECT asset FROM nadrabank.domain.Asset asset LEFT JOIN asset.lot lot LEFT JOIN lot.bid bid ORDER BY bid.bidDate, asset.fondDecisionDate").list();
         return list;
+    }
+    @Override
+    public List findAllSuccessBids(Date startBids, Date endBids) {
+        Query query = factory.getCurrentSession().createQuery("SELECT asset FROM nadrabank.domain.Asset asset LEFT JOIN asset.lot lot LEFT JOIN lot.bid bid WHERE lot.status!='Торги не відбулись' and lot.bid.bidDate>=:startBid AND lot.bid.bidDate<=:endBid ORDER BY bid.bidDate");
+        query.setParameter("startBid", startBids);
+        query.setParameter("endBid", endBids);
+        return query.list();
     }
     @Override
     public List findAll(int portionNum) {
@@ -103,5 +111,8 @@ public class AssetDaoImpl implements AssetDao {
     public List getExchanges(){
         return factory.getCurrentSession().createQuery("SELECT asset.lot.bid.exchange.companyName FROM nadrabank.domain.Asset asset GROUP BY asset.lot.bid.exchange.companyName ORDER BY asset.lot.bid.exchange.companyName").list();
     }
-
+    @Override
+    public List getDecisionNumbers(){
+        return factory.getCurrentSession().createQuery("SELECT asset.decisionNumber FROM nadrabank.domain.Asset asset GROUP BY asset.decisionNumber ORDER BY asset.decisionNumber").list();
+    }
 }

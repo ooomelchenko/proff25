@@ -42,8 +42,8 @@ public class Asset implements Serializable {
     private String evaluationStatus;
     @Column(name = "REGION")
     private String region;
-    @Column(name = "BID_PRICE_UAH")
-    private BigDecimal bidPrice;
+    /*@Column(name = "BID_PRICE_UAH")
+    private BigDecimal bidPrice;*/
     @Column(name = "FACT_SALE_PRICE_UAH")
     private BigDecimal factPrice;
     @Column(name = "IS_IT_SOLD")
@@ -56,8 +56,20 @@ public class Asset implements Serializable {
     private String fondDecision;
     @Column(name = "FOND_DECISION_NUM")
     private String decisionNumber;
+    @Column(name = "ACCEPTED_PRICE")
+    private BigDecimal acceptPrice;
     @Column(name = "PROPOSITION")
     private String proposition;
+    @Column(name = "PAYMENTS_BID")
+    private BigDecimal paysBid;
+    @Column(name = "PAYMENTS_CUSTOMER")
+    private BigDecimal paysCustomer;
+    @Column(name = "LAST_BID_PAY_DATE")
+    private Date bidPayDate;
+    @Column(name = "LAST_CUSTOMER_PAY_DATE")
+    private Date customerPayDate;
+    @Column(name = "PLAN_SALE_DATE")
+    private Date planSaleDate;
 
     @ManyToOne
     private Lot lot;//класс
@@ -167,13 +179,6 @@ public class Asset implements Serializable {
         this.region = region;
     }
 
-    public BigDecimal getBidPrice() {
-        return bidPrice;
-    }
-    public void setBidPrice(BigDecimal bidPrice) {
-        this.bidPrice = bidPrice;
-    }
-
     public BigDecimal getFactPrice() {
         return factPrice;
     }
@@ -223,6 +228,13 @@ public class Asset implements Serializable {
         this.decisionNumber = decisionNumber;
     }
 
+    public BigDecimal getAcceptPrice() {
+        return acceptPrice;
+    }
+    public void setAcceptPrice(BigDecimal acceptPrice) {
+        this.acceptPrice = acceptPrice;
+    }
+
     public String getProposition() {
         return proposition;
     }
@@ -230,33 +242,42 @@ public class Asset implements Serializable {
         this.proposition = proposition;
     }
 
-    public Asset() {
+    public BigDecimal getPaysBid() {
+        return paysBid;
+    }
+    public void setPaysBid(BigDecimal paysBid) {
+        this.paysBid = paysBid;
     }
 
-    public Asset(String assetTypeCode, String assetGroupCode, String inn, String asset_name, String asset_descr, String viddil, String balanceAccount, Date eksplDate, BigDecimal originalPrice, BigDecimal zb, BigDecimal rvNoPdv, BigDecimal rv, String evaluationStatus, String region, BigDecimal bidPrice, BigDecimal factPrice, boolean isSold, boolean approveNBU, Date fondDecisionDate, String fondDecision, String decisionNumber, String proposition, Lot lot) {
-        this.assetTypeCode = assetTypeCode;
-        this.assetGroupCode = assetGroupCode;
-        this.inn = inn;
-        this.asset_name = asset_name;
-        this.asset_descr = asset_descr;
-        this.viddil = viddil;
-        this.balanceAccount = balanceAccount;
-        this.eksplDate = eksplDate;
-        this.originalPrice = originalPrice;
-        this.zb = zb;
-        this.rvNoPdv = rvNoPdv;
-        this.rv = rv;
-        this.evaluationStatus = evaluationStatus;
-        this.region = region;
-        this.bidPrice = bidPrice;
-        this.factPrice = factPrice;
-        this.isSold = isSold;
-        this.approveNBU = approveNBU;
-        this.fondDecisionDate = fondDecisionDate;
-        this.fondDecision = fondDecision;
-        this.decisionNumber = decisionNumber;
-        this.proposition = proposition;
-        this.lot = lot;
+    public BigDecimal getPaysCustomer() {
+        return paysCustomer;
+    }
+    public void setPaysCustomer(BigDecimal paysCustomer) {
+        this.paysCustomer = paysCustomer;
+    }
+
+    public Date getBidPayDate() {
+        return bidPayDate;
+    }
+    public void setBidPayDate(Date bidPayDate) {
+        this.bidPayDate = bidPayDate;
+    }
+
+    public Date getCustomerPayDate() {
+        return customerPayDate;
+    }
+    public void setCustomerPayDate(Date customerPayDate) {
+        this.customerPayDate = customerPayDate;
+    }
+
+    public Date getPlanSaleDate() {
+        return planSaleDate;
+    }
+    public void setPlanSaleDate(Date planSaleDate) {
+        this.planSaleDate = planSaleDate;
+    }
+
+    public Asset() {
     }
 
     @Override
@@ -277,14 +298,19 @@ public class Asset implements Serializable {
                 ", rv=" + rv +
                 ", evaluationStatus='" + evaluationStatus + '\'' +
                 ", region='" + region + '\'' +
-                ", bidPrice=" + bidPrice +
                 ", factPrice=" + factPrice +
                 ", isSold=" + isSold +
                 ", approveNBU=" + approveNBU +
                 ", fondDecisionDate=" + fondDecisionDate +
                 ", fondDecision='" + fondDecision + '\'' +
                 ", decisionNumber='" + decisionNumber + '\'' +
+                ", acceptPrice=" + acceptPrice +
                 ", proposition='" + proposition + '\'' +
+                ", paysBid=" + paysBid +
+                ", paysCustomer=" + paysCustomer +
+                ", bidPayDate=" + bidPayDate +
+                ", customerPayDate=" + customerPayDate +
+                ", planSaleDate=" + planSaleDate +
                 ", lot=" + lot +
                 '}';
     }

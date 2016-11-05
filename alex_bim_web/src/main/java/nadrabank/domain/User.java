@@ -1,13 +1,14 @@
 package nadrabank.domain;
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name="Employees")
-public class Employee {
+@Table(name="Users")
+public class User implements Serializable {
     @Id
-    @SequenceGenerator(name = "sequence", sequenceName = "Employee_SEQ", initialValue = 1, allocationSize = 1)
+    @SequenceGenerator(name = "sequence", sequenceName = "User_SEQ", initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence")
     @Column(name = "ID")
     private Long id;
@@ -21,15 +22,8 @@ public class Employee {
     private String password;
     @Column(name = "Rights")
     private String right;
-    @OneToMany(cascade = CascadeType.ALL, // каскадирование
-            fetch = FetchType.EAGER,// подргужать все сразу
-            mappedBy = "employee" )  // включить двунаправленность
-    private Set<Lot> lots = new HashSet<>();
- /*   private enum Rights{
-        User, UpUser, Admin
-    }*/
-    //Getters&Setters
 
+    //Getters&Setters
     public Long getId() {
         return id;
     }
@@ -72,18 +66,10 @@ public class Employee {
         this.right = right;
     }
 
-    public Set<Lot> getLots() {
-        return lots;
-    }
-    public void setLots(Set<Lot> lots) {
-        this.lots = lots;
-    }
-
     //Конструктора
-    public Employee() {
+    public User() {
     }
-
-    public Employee(String region, String fio, String login, String password, String right) {
+    public User(String region, String fio, String login, String password, String right) {
         this.region = region;
         this.fio = fio;
         this.login = login;
@@ -92,8 +78,7 @@ public class Employee {
     }
     @Override
     public String toString() {
-        return "Employee{" +
-                "id=" + id +
+        return  "id=" + id +
                 ", region='" + region + '\'' +
                 ", fio='" + fio + '\'' +
                 ", login='" + login + '\'' +

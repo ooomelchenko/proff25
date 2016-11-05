@@ -39,6 +39,8 @@ public class Lot implements Serializable {
     private String status;
     @Column(name = "ACT_SIGNED_DATE")
     private Date actSignedDate;
+    @Column(name="lot_Type")
+    private int lotType;
 
     @ManyToOne
     private User user;//класс
@@ -157,11 +159,18 @@ public class Lot implements Serializable {
         this.actSignedDate = actSignedDate;
     }
 
+    public int getLotType() {
+        return lotType;
+    }
+    public void setLotType(int lotType) {
+        this.lotType = lotType;
+    }
+
     //Конструктора
     public Lot() {
     }
 
-    public Lot(String comment, User user, Date lotDate) {
+    public Lot(String comment, User user, Date lotDate, int lotType) {
         this.workStage = "Новий лот";
         this.isItSold = false;
         this.comment = comment;
@@ -169,9 +178,10 @@ public class Lot implements Serializable {
         this.lotDate = lotDate;
         this.countOfParticipants=0;
         this.bidStage="Перші торги";
+        this.lotType=lotType;
     }
 
-    public Lot(String lotNum, String workStage, Boolean isItSold, String comment, Date lotDate, String bidStage, int countOfParticipants, BigDecimal startPrice, BigDecimal firstStartPrice, BigDecimal factPrice, String customerName, String status, User user, Bid bid) {
+    public Lot(String lotNum, String workStage, Boolean isItSold, String comment, Date lotDate, String bidStage, int countOfParticipants, BigDecimal startPrice, BigDecimal firstStartPrice, BigDecimal factPrice, String customerName, String status, Date actSignedDate, int lotType, User user, Bid bid) {
         this.lotNum = lotNum;
         this.workStage = workStage;
         this.isItSold = isItSold;
@@ -184,6 +194,8 @@ public class Lot implements Serializable {
         this.factPrice = factPrice;
         this.customerName = customerName;
         this.status = status;
+        this.actSignedDate = actSignedDate;
+        this.lotType = lotType;
         this.user = user;
         this.bid = bid;
     }
@@ -205,6 +217,7 @@ public class Lot implements Serializable {
                 ", customerName='" + customerName + '\'' +
                 ", status='" + status + '\'' +
                 ", actSignedDate=" + actSignedDate +
+                ", lotType=" + lotType +
                 ", user=" + user +
                 ", bid=" + bid +
                 '}';

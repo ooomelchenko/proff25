@@ -42,13 +42,13 @@
         <tr>
             <td>Логін</td>
             <td>
-                <input id="login" type="text" class="login" placeholder="Логін" value="alexandr"/>
+                <input id="login" type="text" class="login" placeholder="Логін" <%--value="alexandr"--%>/>
             </td>
         </tr>
         <tr>
             <td>Пароль</td>
             <td>
-                <input id="password" type="password" class="password" placeholder="Пароль" value="a44n73"/>
+                <input id="password" type="password" class="password" placeholder="Пароль" <%--value="a44n73"--%>/>
             </td>
         </tr>
     </table>

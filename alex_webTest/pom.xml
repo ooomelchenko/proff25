@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>alex_nadra_web</artifactId>
+    <artifactId>alex_webTest</artifactId>
     <packaging>war</packaging>
 
 </project>

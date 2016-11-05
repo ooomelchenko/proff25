@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Service //(name ="creditServiceImpl")
@@ -70,6 +71,16 @@ public class CreditServiceImpl implements CreditService {
     }
     @Override
     @Transactional(readOnly = true)
+    public List <Credit> getCreditsByPortion(int num, int isSold, int isInLot, int clientType, int isNbu, int isFondDec){
+        return creditDao.findAll(num, isSold, isInLot, clientType, isNbu, isFondDec);
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public Long countOfFilteredCredits(int isSold, int isInLot, int clientType, int isNbu, int isFondDec) {
+       return creditDao.countOfFilteredCredits(isSold, isInLot, clientType, isNbu, isFondDec);
+    }
+    @Override
+    @Transactional(readOnly = true)
     public Long getTotalCountOfCredits(){
        return creditDao.totalCount();
     }
@@ -109,5 +120,19 @@ public class CreditServiceImpl implements CreditService {
     @Transactional(readOnly = true)
     public List getCreditsByClient(String inn, Long id){
         return creditDao.getCreditsByClient(inn, id);
+    }
+    @Override
+    public boolean updateCredit(String userLogin, Credit credit) {
+        return  creditDao.update(credit);
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public List getCrditsByLotId(Long lotId){
+        return creditDao.getCreditsByLot(lotId);
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public List getCredits_SuccessBids(Date startBids, Date endBids) {
+        return creditDao.getCredits_SuccessBids(startBids, endBids);
     }
 }

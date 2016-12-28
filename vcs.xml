@@ -6,6 +6,10 @@
           <option name="url" value="https://ooomelchenko@bitbucket.org/otgband/gup.git" />
           <option name="userName" value="" />
         </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="http://github.com" />
+          <option name="userName" value="ooomelchenko@gmail.com" />
+        </UrlAndUserName>
       </list>
     </option>
     <option name="cloneParentDir" value="C:\Users\HP-PC\IdeaProjects" />
